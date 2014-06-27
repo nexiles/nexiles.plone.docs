@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 from plone.jsonapi.core import router
 
 from plone.jsonapi.routes.api import url_for
@@ -11,9 +13,6 @@ from plone.jsonapi.routes.api import update_items
 from plone.jsonapi.routes.api import delete_items
 
 from plone import api
-
-PREFIX = "http://192.168.100.137/docs/"
-
 
 @router.add_route("/docs/api/1.0/login", "login", methods=["GET"])
 def check(context, request):
@@ -99,9 +98,35 @@ def delete(context, request, uid=None):
 #    "items": map(items, lambda item: filter(PREFIX, item, request))
 #}
 
+# http://docs.plone.org/develop/plone/serving/http_request_and_response.html#http-request
+def get_hostname(request):
+    """ Extract hostname in virtual-host-safe manner
 
-def filter(prefix, items, request):
+    @param request: HTTPRequest object, assumed contains environ dictionary
+
+    @return: Host DNS name, as requested by client. Lowercased, no port part.
+             Return None if host name is not present in HTTP request headers
+             (e.g. unit testing).
+    """
+
+    if "HTTP_X_FORWARDED_HOST" in request.environ:
+        # Virtual host
+        host = request.environ["HTTP_X_FORWARDED_HOST"]
+    elif "HTTP_HOST" in request.environ:
+        # Direct client request
+        host = request.environ["HTTP_HOST"]
+    else:
+        return None
+
+    # separate to domain name and port sections
+    host=host.split(":")[0].lower()
+
+    return host
+
+def filter(items, request):
   result = list()
+  host_name = get_hostname(request)
+  PREFIX = host_name + os.environ.get("NEXILES_DOC_ROOT", "/docs/")
 
   for item in items:
     item = get_items("docmeta", request, uid=item["uid"], endpoint="docs")[0]
@@ -115,7 +140,6 @@ def filter(prefix, items, request):
       "name": item["title"],
       "state": state,
       "version": item["version"]
-      "url": item["url"] or ...
     }
 
     if item["url"]:
