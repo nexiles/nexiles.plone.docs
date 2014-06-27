@@ -140,22 +140,10 @@ def filter(items, request):
       "name": item["title"],
       "state": state,
       "version": item["version"]
+      "url": item["url"] or PREFIX + out["name"] + "/v" + out["version"] + "/"
+      "zip": item["zip"] or PREFIX + out["name"] + "/v" + out["version"] + ".zip"
+      "icon": item["icon"] and PREFIX + item["icon"]
     }
-
-    if item["url"]:
-      out["url"] = item["url"]
-    else:
-      out["url"] = PREFIX + out["name"] + "/v" + out["version"] + "/"
-
-    if item["zip"]:
-      out["zip"] = PREFIX + item["zip"]
-    else:
-      out["zip"] = PREFIX + out["name"] + "/v" + out["version"] + ".zip"
-
-    if item["icon"]:
-      out["icon"] = PREFIX + item["icon"]
-    else:
-      out["icon"] = item["icon"]
 
     result.append(out)
 
