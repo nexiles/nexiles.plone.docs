@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<action-icons>
+ <action-icon category="controlpanel" action_id="versioning" title="Versioning" priority="0" icon_expr="versioning.gif"/>
+ <action-icon category="controlpanel" action_id="tinymce" title="TinyMCE" priority="0" icon_expr="++resource++tinymce.images/tinymce_icon.gif"/>
+</action-icons>

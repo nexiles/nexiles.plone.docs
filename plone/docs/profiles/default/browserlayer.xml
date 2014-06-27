@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layers name="" meta_type="ComponentRegistry">
+ <layer name="plone.app.discussion"
+    interface="plone.app.discussion.interfaces.IDiscussionLayer"/>
+ <layer name="plone.app.z3cform"
+    interface="plone.app.z3cform.interfaces.IPloneFormLayer"/>
+</layers>

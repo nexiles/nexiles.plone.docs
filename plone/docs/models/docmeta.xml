@@ -1,0 +1,25 @@
+<model xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns="http://namespaces.plone.org/supermodel/schema">
+  <schema>
+    <field name="version" type="zope.schema.TextLine">
+      <description/>
+      <max_length>10</max_length>
+      <min_length>3</min_length>
+      <title>Version</title>
+    </field>
+    <field name="url" type="zope.schema.TextLine">
+      <description>By default the API links to /*name of documentation*/v*version*/index.html</description>
+      <required>False</required>
+      <title>Web URL</title>
+    </field>
+    <field name="zip" type="zope.schema.TextLine">
+      <description>By default the API links to /*name of documentation*/v*version*.zip</description>
+      <required>False</required>
+      <title>ZIP location</title>
+    </field>
+    <field name="icon" type="zope.schema.TextLine">
+      <description/>
+      <required>False</required>
+      <title>Icon location</title>
+    </field>
+  </schema>
+</model>

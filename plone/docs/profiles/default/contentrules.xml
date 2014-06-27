@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<contentrules>
+ <rule name="rule-1" title="Notify reviewer" cascading="False" description=""
+    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.WorkflowTransition">
+    <property name="wf_transitions">
+     <element>submit</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.Mail">
+    <property name="source"/>
+    <property
+       name="message">A new documentation was submitted for publication.</property>
+    <property name="subject">New Documentation Submitted</property>
+    <property name="recipients">se@nexiles.com</property>
+    <property name="exclude_actor">False</property>
+   </action>
+  </actions>
+ </rule>
+ <assignment name="rule-1" bubbles="True" enabled="True"
+    location="/documentation"/>
+</contentrules>

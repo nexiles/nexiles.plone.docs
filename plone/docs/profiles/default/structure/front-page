@@ -1,0 +1,23 @@
+id: front-page
+title: Nexiles Documentation
+description: Meta data for nexiles documentation
+subject: 
+relatedItems: 
+location: 
+language: en
+effectiveDate: 2014/05/27 12:20:00 GMT+2
+expirationDate: None
+creation_date: 2014/05/16 17:24:31.443610 GMT+2
+modification_date: 2014/06/26 16:13:52.689775 GMT+2
+creators: admin
+contributors: 
+rights: 
+allowDiscussion: False
+excludeFromNav: False
+presentation: False
+tableContents: False
+Content-Type: text/html
+
+<p>Welcome to the Plone interface for the management of nexiles documentation.</p>
+<p>New Documentation can be created under Documentation&gt;Add new...&gt;Documentation</p>
+<p>Documentation Admins can manage users under Site Setup&gt;Users and Groups</p>
