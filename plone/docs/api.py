@@ -107,9 +107,9 @@ def filter(items, request):
     out = {
       "name": item["title"],
       "state": state,
-      "version": item["version"]
-      "url": item["url"] or PREFIX + out["name"] + "/v" + out["version"] + "/"
-      "zip": item["zip"] or PREFIX + out["name"] + "/v" + out["version"] + ".zip"
+      "version": item["version"],
+      "url": item["url"] or PREFIX + item["title"] + "/v" + item["version"] + "/",
+      "zip": item["zip"] or PREFIX + item["title"] + "/v" + item["version"] + ".zip",
       "icon": item["icon"] and PREFIX + item["icon"]
     }
 
