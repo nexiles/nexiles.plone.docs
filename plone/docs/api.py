@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os
-
 from plone.jsonapi.core import router
-
-from plone.jsonapi.routes.api import url_for
 
 # CRUD
 from plone.jsonapi.routes.api import get_items
