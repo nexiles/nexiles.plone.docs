@@ -38,14 +38,12 @@ def check(context, request):
 def getPublic(context, request, uid=None):
     """ get docs
     """
-
     items = get_items("docmeta", request, uid=uid, endpoint="docs")
 
-    # res = filter(arr, func)
     return {
         "url": url_for("docs"),
         "count": len(items),
-        "items": filter(items, request),
+        "items": rewriteItems(items, request),
     }
 
 # CREATE
@@ -55,10 +53,11 @@ def create(context, request, uid=None):
     """ create docs
     """
     items = create_items("docmeta", request, uid=uid, endpoint="docs")
+
     return {
         "url": url_for("docs_create"),
         "count": len(items),
-        "items": filter(items, request)
+        "items": rewriteItems(items, request)
     }
 
 
@@ -69,10 +68,11 @@ def update(context, request, uid=None):
     """ update docs
     """
     items = update_items("docmeta", request, uid=uid, endpoint="docs")
+
     return {
         "url": url_for("docs_update"),
         "count": len(items),
-        "items": filter(items, request)
+        "items": rewriteItems(items, request)
     }
 
 
@@ -83,38 +83,39 @@ def delete(context, request, uid=None):
     """ delete docs
     """
     items = delete_items("docmeta", request, uid=uid, endpoint="docs")
+
     return {
         "url": url_for("docs_delete"),
         "count": len(items),
-        "items": filter(items, request)
+        "items": rewriteItems(items, request)
     }
 
+def rewriteItems(items, request):
+    """ map all items to the refetched items
+    """
+    host_name = request.environ.get("NEXILES_DOC_HOST", "http://localhost:8888")
+    doc_root  = request.environ.get("NEXILES_DOC_ROOT", "/docs/")
+    prefix = host_name + doc_root
+    return map(lambda item: refetch(item["uid"], request, prefix), items)
 
-def filter(items, request):
-  result = list()
-  host_name = request.environ.get("NEXILES_DOC_HOST", "http://localhost:8888")
-  doc_root  = request.environ.get("NEXILES_DOC_ROOT", "/docs/")
-  PREFIX = host_name + doc_root
+def refetch(id, request, prefix):
+    """ generate a new item with all necessary attributes
+    """
+    item = get_items("docmeta", request, uid=id, endpoint="docs")[0]
 
-  for item in items:
-    item = get_items("docmeta", request, uid=item["uid"], endpoint="docs")[0]
     state = item["workflow_info"]["status"]
     if state == "Externally visible" or state == "Internally published":
       state = "released"
     else:
-      state = None
+      state = "internal"
 
-    out = {
+    return {
       "name": item["title"],
       "state": state,
       "version": item["version"],
-      "url": item["url"] or PREFIX + item["title"] + "/v" + item["version"] + "/",
-      "zip": item["zip"] or PREFIX + item["title"] + "/v" + item["version"] + ".zip",
-      "icon": item["icon"] and PREFIX + item["icon"]
+      "url": item["url"] or prefix + item["title"] + "/v" + item["version"] + "/",
+      "zip": item["zip"] or prefix + item["title"] + "/v" + item["version"] + ".zip",
+      "icon": item["icon"] and prefix + item["icon"]
     }
-
-    result.append(out)
-
-  return result
 
 # vim: set ft=python ts=4 sw=4 expandtab :
