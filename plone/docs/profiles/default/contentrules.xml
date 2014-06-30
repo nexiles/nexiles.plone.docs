@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <contentrules>
- <rule name="rule-1" title="Notify reviewer" cascading="False" description=""
-    enabled="True" event="Products.CMFCore.interfaces.IActionSucceededEvent"
+ <rule name="rule-1" title="Notify Documentation Admin" cascading="False"
+    description="" enabled="True"
+    event="Products.CMFCore.interfaces.IActionSucceededEvent"
     stop-after="False">
   <conditions>
    <condition type="plone.conditions.WorkflowTransition">

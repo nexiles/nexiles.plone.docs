@@ -149,6 +149,7 @@
     </permission>
     <permission name="Copy or Move" acquire="True">
       <role name="Site Administrator"/>
+      <role name="User Manager"/>
     </permission>
     <permission name="Delete objects" acquire="True">
       <role name="Editor"/>

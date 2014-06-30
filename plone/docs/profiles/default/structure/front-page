@@ -1,6 +1,6 @@
 id: front-page
 title: Nexiles Documentation
-description: Meta data for nexiles documentation
+description: Management interface for documentation meta data
 subject: 
 relatedItems: 
 location: 
@@ -8,7 +8,7 @@ language: en
 effectiveDate: 2014/05/27 12:20:00 GMT+2
 expirationDate: None
 creation_date: 2014/05/16 17:24:31.443610 GMT+2
-modification_date: 2014/06/26 16:13:52.689775 GMT+2
+modification_date: 2014/06/27 16:31:11.771211 GMT+2
 creators: admin
 contributors: 
 rights: 
@@ -18,6 +18,14 @@ presentation: False
 tableContents: False
 Content-Type: text/html
 
-<p>Welcome to the Plone interface for the management of nexiles documentation.</p>
-<p>New Documentation can be created under Documentation&gt;Add new...&gt;Documentation</p>
-<p>Documentation Admins can manage users under Site Setup&gt;Users and Groups</p>
+<p class=" "> </p>
+<p class=" ">Welcome to the Plone interface for the management of documentation. With this platform you can add, edit, delete and publish documentation meta data. The corresponding files are served separately and linked automatically or in the meta data object. The meta data is also available over a JSON API that is set up to work with the nexiles|starter doc app.</p>
+<p class=" " id="LC22"> </p>
+<h2 class="line">Documentation Management</h2>
+<div class="line">New Documentation can be created by clicking on Documentation &gt; Add new... &gt; Documentation</div>
+<div class="line">The documentation may also be organized in folders but for the API this makes no difference.</div>
+<div class="line">A developer can only add new documentation and submit it for publication by an admin.</div>
+<p class=" "> </p>
+<h2 class="line">User Management</h2>
+<div class="line" id="LC23">Documentation Admins can manage users and groups under Site Setup &gt; Users and Groups</div>
+<div class="line">Access rights to documentation for specific users should be managed in the Sharing tab of the documentation or folder.</div>

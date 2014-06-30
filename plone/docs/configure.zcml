@@ -26,7 +26,7 @@
       name="default"
       title="Documentation"
       directory="profiles/default"
-      description="Documentation Extension"
+      description="Provides a documentation meta data contenttype, a basic directory structure and default users."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
