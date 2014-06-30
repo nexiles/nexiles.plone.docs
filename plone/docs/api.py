@@ -41,7 +41,6 @@ def getPublic(context, request, uid=None):
     items = get_items("docmeta", request, uid=uid, endpoint="docs")
 
     return {
-        "url": url_for("docs"),
         "count": len(items),
         "items": rewriteItems(items, request),
     }
@@ -55,7 +54,6 @@ def create(context, request, uid=None):
     items = create_items("docmeta", request, uid=uid, endpoint="docs")
 
     return {
-        "url": url_for("docs_create"),
         "count": len(items),
         "items": rewriteItems(items, request)
     }
@@ -70,7 +68,6 @@ def update(context, request, uid=None):
     items = update_items("docmeta", request, uid=uid, endpoint="docs")
 
     return {
-        "url": url_for("docs_update"),
         "count": len(items),
         "items": rewriteItems(items, request)
     }
@@ -85,7 +82,6 @@ def delete(context, request, uid=None):
     items = delete_items("docmeta", request, uid=uid, endpoint="docs")
 
     return {
-        "url": url_for("docs_delete"),
         "count": len(items),
         "items": rewriteItems(items, request)
     }
@@ -93,8 +89,8 @@ def delete(context, request, uid=None):
 def rewriteItems(items, request):
     """ map all items to the refetched items
     """
-    host_name = request.environ.get("NEXILES_DOC_HOST", "http://localhost:8888")
-    doc_root  = request.environ.get("NEXILES_DOC_ROOT", "/docs/")
+    host_name = request.get_header("NEXILES_DOC_HOST", "http://localhost:8888")
+    doc_root  = request.get_header("NEXILES_DOC_ROOT", "/docs/")
     prefix = host_name + doc_root
     return map(lambda item: refetch(item["uid"], request, prefix), items)
 
