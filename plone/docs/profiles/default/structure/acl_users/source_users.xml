@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<zodb-users>
- <user user_id="consultant" login_name="consultant" password_hash="{SSHA}HbYXvOeL1X2TSBrCDltCundmPRF5o3a1WKfU"/>
- <user user_id="dev" login_name="dev" password_hash="{SSHA}bkNHnSZvHL3nuUXpLj4FaNefapVG1aDdTLXV"/>
- <user user_id="doc_admin" login_name="doc_admin" password_hash="{SSHA}GEt+VogyiENCk0AAO3zkvlypzNFZoirs5HO3"/>
- <user user_id="nsk" login_name="nsk" password_hash="{SSHA}/Hb+vc9SFbMEEG6RZyKcNiEUSXT/PYPrUVcr"/>
- <user user_id="siemens" login_name="siemens" password_hash="{SSHA}JSwn2Y54IgyJSx50oyFwPjntERUhTqj3xTEc"/>
-</zodb-users>

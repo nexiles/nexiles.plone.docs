@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step
+     id="plone.docs.import-steps"
+     version="1"
+     handler="plone.docs.setuphandlers.setupVarious"
+     title="plone.docs import steps">
+ </import-step>
+</import-steps>
