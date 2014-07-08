@@ -35,7 +35,7 @@ def setupVarious(context):
 DOCS = [
 
     # id, **kwargs
-    ("nexiles-documentation-project", {"version": "0.1", "icon": None "title": "nexiles-documentation-project"}),
+    ("nexiles-documentation-project", {"version": "0.1", "icon": None, "title": "nexiles-documentation-project"}),
     ("nexiles-starter2", {"version": "0.4", "icon": "nexiles.starter2/icon.png", "title": "nexiles.starter2"}),
 
 ]
@@ -125,6 +125,15 @@ def setup_doc_folder(portal):
     docs.manage_setLocalRoles("devs", ["Contributor"])
     docs.manage_setLocalRoles("doc_admins", ["Contributor", "Editor", "Reviewer"])
 
+    # make public
+    if api.content.get_state(obj=docs) == "private":
+        api.content.transition(obj=docs, transition='publish')
+
+    #make front-page public
+    page = api.content.get(path="/front-page")
+    if api.content.get_state(obj=page) == "private":
+        api.content.transition(obj=page, transition="publish")
+
 
 def setup_docs(portal):
 
@@ -139,7 +148,8 @@ def setup_docs(portal):
             continue
 
         logger.info("*** Creating Documentation '%s' ..." % doc_id)
-        create(docs, "docmeta", doc_id, **kwargs)
+        result = create(docs, "docmeta", doc_id, **kwargs)
+        result.manage_setLocalRoles("dev", ["Owner"])
         logger.info("*** Creating Documentation '%s' [DONE]" % doc_id)
 
 

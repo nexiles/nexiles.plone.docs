@@ -1,26 +1,25 @@
 id: front-page
 title: Nexiles Documentation
 description: Management interface for documentation meta data
-subject: 
-relatedItems: 
-location: 
+subject:
+relatedItems:
+location:
 language: en
 effectiveDate: 2014/05/27 12:20:00 GMT+2
 expirationDate: None
 creation_date: 2014/05/16 17:24:31.443610 GMT+2
 modification_date: 2014/06/27 16:31:11.771211 GMT+2
 creators: admin
-contributors: 
-rights: 
+contributors:
+rights:
 allowDiscussion: False
 excludeFromNav: False
 presentation: False
 tableContents: False
 Content-Type: text/html
 
-<p class=" "> </p>
-<p class=" ">Welcome to the Plone interface for the management of documentation. With this platform you can add, edit, delete and publish documentation meta data. The corresponding files are served separately and linked automatically or in the meta data object. The meta data is also available over a JSON API that is set up to work with the nexiles|starter doc app.</p>
-<p class=" " id="LC22"> </p>
+<p class=" "><span>Welcome to the Plone interface for the management of documentation. With this platform you can add, edit, delete and publish documentation meta data. The corresponding files are served separately and linked automatically or in the meta data object. The meta data is also available over a JSON API that is set up to work with the nexiles|starter doc app.</span></p>
+<div class="visualClear"><span><br /></span></div>
 <h2 class="line">Documentation Management</h2>
 <div class="line">New Documentation can be created by clicking on Documentation &gt; Add new... &gt; Documentation</div>
 <div class="line">The documentation may also be organized in folders but for the API this makes no difference.</div>
@@ -29,3 +28,7 @@ Content-Type: text/html
 <h2 class="line">User Management</h2>
 <div class="line" id="LC23">Documentation Admins can manage users and groups under Site Setup &gt; Users and Groups</div>
 <div class="line">Access rights to documentation for specific users should be managed in the Sharing tab of the documentation or folder.</div>
+<p class=" "> </p>
+<h2 class="line">Starter Doc App</h2>
+<p class=" ">The nexiles.starter doc app can be downloaded from <a class="external-link" href="https://github.com/nexiles/nexiles-documentation-project/releases" target="_blank" title="">Github</a>.</p>
+<p class=" ">The installation instructions for the app can be found <a href="../docs/nexiles-documentation-project/v0.1/install-doc-app.html">here</a>.</p>
