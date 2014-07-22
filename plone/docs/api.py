@@ -105,8 +105,8 @@ def refetch(id, request, prefix):
       "name": item["title"],
       "state": state,
       "version": item["version"],
-      "url": item["url"] or prefix + item["title"] + "/v" + item["version"] + "/",
-      "zip": item["zip"] or prefix + item["title"] + "/v" + item["version"] + ".zip",
+      "url": (item["url"] and prefix + item["url"]) or prefix + item["title"] + "/v" + item["version"] + "/",
+      "zip": (item["zip"] and prefix + item["zip"]) or prefix + item["title"] + "/v" + item["version"] + ".zip",
       "icon": item["icon"] and prefix + item["icon"]
     }
 
