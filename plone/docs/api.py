@@ -28,14 +28,14 @@ def check(context, request):
 
     if api.user.is_anonymous():
         return {
-          "logged_in": False
+            "logged_in": False
         }
 
     member = api.user.get_current()
     return {
-      "logged_in": True,
-      "email": member.getProperty("email"),
-      "name": member.getProperty("fullname"),
+        "logged_in": True,
+        "email": member.getProperty("email"),
+        "name": member.getProperty("fullname"),
     }
 
 
@@ -110,17 +110,17 @@ def refetch(id, request, prefix):
 
     state = item["workflow_info"]["status"]
     if state == "Externally visible" or state == "Internally published":
-      state = "released"
+        state = "released"
     else:
-      state = "internal"
+        state = "internal"
 
     return {
-      "name": item["title"],
-      "state": state,
-      "version": item["version"],
-      "url": (item["url"] and prefix + item["url"]) or prefix + item["title"] + "/v" + item["version"] + "/",
-      "zip": (item["zip"] and prefix + item["zip"]) or prefix + item["title"] + "/v" + item["version"] + ".zip",
-      "icon": item["icon"] and prefix + item["icon"]
+        "name": item["title"],
+        "state": state,
+        "version": item["version"],
+        "url": (item["url"] and prefix + item["url"]) or prefix + item["title"] + "/v" + item["version"] + "/",
+        "zip": (item["zip"] and prefix + item["zip"]) or prefix + item["title"] + "/v" + item["version"] + ".zip",
+        "icon": item["icon"] and prefix + item["icon"]
     }
 
 # vim: set ft=python ts=4 sw=4 expandtab :
