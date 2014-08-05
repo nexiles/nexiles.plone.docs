@@ -4,6 +4,7 @@
     <role name="Anonymous"/>
     <role name="Authenticated"/>
     <role name="Contributor"/>
+    <role name="Documentation Administrator"/>
     <role name="Editor"/>
     <role name="Manager"/>
     <role name="Member"/>
@@ -66,9 +67,9 @@
       <role name="Site Administrator"/>
     </permission>
     <permission name="Access inactive portal content" acquire="True">
+      <role name="Documentation Administrator"/>
       <role name="Owner"/>
       <role name="Site Administrator"/>
-      <role name="User Manager"/>
     </permission>
     <permission name="Access session data" acquire="True">
       <role name="Site Administrator"/>
@@ -148,8 +149,8 @@
       <role name="Site Administrator"/>
     </permission>
     <permission name="Copy or Move" acquire="True">
+      <role name="Documentation Administrator"/>
       <role name="Site Administrator"/>
-      <role name="User Manager"/>
     </permission>
     <permission name="Delete objects" acquire="True">
       <role name="Editor"/>

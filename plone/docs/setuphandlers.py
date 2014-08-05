@@ -44,17 +44,17 @@ GROUPS = [
     # groupname, title, description, roles, groups
     ("doc_admins", "Documentation Admins", "", [], []),
     ("user_admins", "User Admins", "", ["User Manager"], []),
-    ("devs", "Developers", "", [], []),
+    ("developers", "Developers", "", [], []),
     ("consultants", "Consultants", "", [], []),
     ("external_users", "External Users", "", [], []),
-    ("internal_users", "Internal Users", "", ["Member"], ["doc_admins", "user_admins", "devs", "consultants"])
+    ("internal_users", "Internal Users", "", ["Member"], ["doc_admins", "user_admins", "developers", "consultants"])
 ]
 
 DEMO_USERS = [
 
     # Add some users
     # email, username, password, roles, properties, groups
-    ("dev@example.com", "dev", "secret", (), {"fullname": "Developer"}, ("devs",)),
+    ("dev@example.com", "developer", "secret", (), {"fullname": "Developer"}, ("developers",)),
     ("consultant@example.com", "consultant", "secret", (), {"fullname": "Consultant"}, ("consultants",)),
     ("doc_admin@example.com", "doc_admin", "secret", (), {"fullname": "Doc-Admin"}, ("doc_admins", "user_admins")),
     ("info@siemens.com", "siemens", "secret", (), {"fullname": "Siemens"}, ("external_users",))
@@ -122,14 +122,14 @@ def setup_doc_folder(portal):
 
     # local roles
     docs.manage_setLocalRoles("internal_users", ["Reader"])
-    docs.manage_setLocalRoles("devs", ["Contributor"])
+    docs.manage_setLocalRoles("developers", ["Contributor"])
     docs.manage_setLocalRoles("doc_admins", ["Contributor", "Editor", "Reviewer"])
 
     # make public
     if api.content.get_state(obj=docs) == "private":
         api.content.transition(obj=docs, transition='publish')
 
-    #make front-page public
+    # make front-page public
     page = api.content.get(path="/front-page")
     if api.content.get_state(obj=page) == "private":
         api.content.transition(obj=page, transition="publish")
@@ -142,14 +142,14 @@ def setup_docs(portal):
     for doc in DOCS:
         doc_id, kwargs = doc
 
-        # Report exists already, skipping
+        # Documentation exists already, skipping
         if doc_id in docs:
             logger.info("*** Documentation '%s' already in Documentation Folder [SKIP]" % doc_id)
             continue
 
         logger.info("*** Creating Documentation '%s' ..." % doc_id)
         result = create(docs, "docmeta", doc_id, **kwargs)
-        result.manage_setLocalRoles("dev", ["Owner"])
+        result.manage_setLocalRoles("developer", ["Owner"])
         logger.info("*** Creating Documentation '%s' [DONE]" % doc_id)
 
 

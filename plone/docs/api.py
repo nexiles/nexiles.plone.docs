@@ -108,10 +108,10 @@ def refetch(id, request, prefix):
     item = get_items("docmeta", request, uid=id, endpoint="docs")[0]
 
     state = item["workflow_info"]["status"]
-    if state == "Externally visible" or state == "Internally published":
+    if state == "Externally released" or state == "Internally released":
         state = "released"
-    else:
-        state = "internal"
+    elif state == "External draft" or state == "Internal draft":
+        state = "draft"
 
     return {
         "name": item["title"],

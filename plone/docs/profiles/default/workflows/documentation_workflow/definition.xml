@@ -1,0 +1,392 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="documentation_workflow" title="Documentation Workflow" description=" - A workflow for the documentation meta data contenttype" state_variable="review_state" initial_state="private" manager_bypass="False">
+ <permission>Access contents information</permission>
+ <permission>Change portal events</permission>
+ <permission>Modify portal content</permission>
+ <permission>View</permission>
+ <state state_id="externally_released" title="Externally released">
+  <description>Released and visible to people outside the intranet, not editable by the owner.</description>
+  <exit-transition transition_id="hide"/>
+  <exit-transition transition_id="retract_external"/>
+  <exit-transition transition_id="release_internally"/>
+  <permission-map name="Access contents information" acquired="False">
+   <permission-role>Anonymous</permission-role>
+  </permission-map>
+  <permission-map name="Change portal events" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Anonymous</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="external_draft" title="External draft">
+  <description>Visible to people outside the intranet, editable by the owner.</description>
+  <exit-transition transition_id="hide"/>
+  <exit-transition transition_id="make_internal"/>
+  <exit-transition transition_id="submit_external"/>
+  <permission-map name="Access contents information" acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Contributor</permission-role>
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Reader</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Change portal events" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Anonymous</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="internal_draft" title="Internal draft">
+  <description>Visible to all intranet users, editable by the owner.</description>
+  <exit-transition transition_id="hide"/>
+  <exit-transition transition_id="submit_internal"/>
+  <exit-transition transition_id="make_external"/>
+  <permission-map name="Access contents information" acquired="False">
+   <permission-role>Contributor</permission-role>
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Reader</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Change portal events" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Contributor</permission-role>
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Reader</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="internally_released" title="Internally released">
+  <description>Released and visible to intranet users, not editable by the owner.</description>
+  <exit-transition transition_id="retract_internal"/>
+  <exit-transition transition_id="release_externally"/>
+  <exit-transition transition_id="hide"/>
+  <permission-map name="Access contents information" acquired="False">
+   <permission-role>Contributor</permission-role>
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Reader</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Change portal events" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Contributor</permission-role>
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Reader</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="pending_internal" title="Pending review">
+  <description>Waiting to be reviewed, not editable by the owner.</description>
+  <exit-transition transition_id="release_internally"/>
+  <exit-transition transition_id="reject_internal"/>
+  <exit-transition transition_id="retract_internal"/>
+  <permission-map name="Access contents information" acquired="False">
+   <permission-role>Contributor</permission-role>
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Reader</permission-role>
+   <permission-role>Reviewer</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Change portal events" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Reviewer</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Reviewer</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Contributor</permission-role>
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Reader</permission-role>
+   <permission-role>Reviewer</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="pending_external" title="Pending review">
+  <description>Waiting to be reviewed, not editable by the owner.</description>
+  <exit-transition transition_id="reject_external"/>
+  <exit-transition transition_id="retract_external"/>
+  <exit-transition transition_id="release_externally"/>
+  <permission-map name="Access contents information" acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Contributor</permission-role>
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Reader</permission-role>
+   <permission-role>Reviewer</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Change portal events" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Reviewer</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Reviewer</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Contributor</permission-role>
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Reader</permission-role>
+   <permission-role>Reviewer</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="private" title="Private">
+  <description>Can only be seen and edited by the owner and Administrators.</description>
+  <exit-transition transition_id="make_internal"/>
+  <exit-transition transition_id="make_external"/>
+  <permission-map name="Access contents information" acquired="False">
+   <permission-role>Contributor</permission-role>
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Reader</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Change portal events" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content" acquired="False">
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Contributor</permission-role>
+   <permission-role>Documentation Administrator</permission-role>
+   <permission-role>Editor</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Reader</permission-role>
+   <permission-role>Site Administrator</permission-role>
+  </permission-map>
+ </state>
+ <transition transition_id="hide" title="Member makes content private" new_state="private" trigger="USER" before_script="" after_script="">
+  <description>Making an item private means that it will not be visible to anyone but the owner and the site administrator.</description>
+  <action url="%(content_url)s/content_status_modify?workflow_action=hide" category="workflow" icon="">Make private</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="make_external" title="Member promotes documentation to external draft" new_state="external_draft" trigger="USER" before_script="" after_script="">
+  <description>Makes your documentation an external draft.</description>
+  <action url="%(content_url)s/content_status_modify?workflow_action=make_external" category="workflow" icon="">Make external draft</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="retract_external" title="Member retracts external submission" new_state="external_draft" trigger="USER" before_script="" after_script="">
+  <description>If you submitted the item by mistake or want to perform additional edits, this will take it back.</description>
+  <action url="%(content_url)s/content_status_modify?workflow_action=retract_external" category="workflow" icon="">Retract</action>
+  <guard>
+   <guard-role>Owner</guard-role>
+  </guard>
+ </transition>
+ <transition transition_id="release_externally" title="Reviewer releases documentation externally" new_state="externally_released" trigger="USER" before_script="" after_script="">
+  <description>Releasing the documentation makes it visible to external users.</description>
+  <action url="%(content_url)s/content_status_modify?workflow_action=release_externally" category="workflow" icon="">Release externally</action>
+  <guard>
+   <guard-role>Reviewer</guard-role>
+  </guard>
+ </transition>
+ <transition transition_id="release_internally" title="Reviewer releases documentation internally" new_state="internally_released" trigger="USER" before_script="" after_script="">
+  <description>Releasing the documentation marks it as released to other users.</description>
+  <action url="%(content_url)s/content_status_modify?workflow_action=release_internally" category="workflow" icon="">Release internally</action>
+  <guard>
+   <guard-role>Reviewer</guard-role>
+  </guard>
+ </transition>
+ <transition transition_id="reject_internal" title="Send back internal" new_state="internal_draft" trigger="USER" before_script="" after_script="">
+  <description>Sending the item back will return the item to the original author instead of publishing it. You should preferably include a reason for why it was not released.</description>
+  <action url="%(content_url)s/content_status_modify?workflow_action=reject_internal" category="workflow" icon="">Send back</action>
+  <guard>
+   <guard-role>Reviewer</guard-role>
+  </guard>
+ </transition>
+ <transition transition_id="retract_internal" title="Member retracts internal submission" new_state="internal_draft" trigger="USER" before_script="" after_script="">
+  <description>If you submitted the item by mistake or want to perform additional edits, this will take it back.</description>
+  <action url="%(content_url)s/content_status_modify?workflow_action=retract_internal" category="workflow" icon="">Retract</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="reject_external" title="Send back external" new_state="external_draft" trigger="USER" before_script="" after_script="">
+  <description>Sending the item back will return the item to the original author instead of publishing it. You should preferably include a reason for why it was not released.</description>
+  <action url="%(content_url)s/content_status_modify?workflow_action=reject_external" category="workflow" icon="">Send back</action>
+  <guard>
+   <guard-role>Reviewer</guard-role>
+  </guard>
+ </transition>
+ <transition transition_id="make_internal" title="Member promotes documentation to internal draft" new_state="internal_draft" trigger="USER" before_script="" after_script="">
+  <description>Makes your documentation an internal draft.</description>
+  <action url="%(content_url)s/content_status_modify?workflow_action=make_internal" category="workflow" icon="">Make internal draft</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="submit_internal" title="Submit for internal release" new_state="pending_internal" trigger="USER" before_script="" after_script="">
+  <description>Puts your item in a review queue, so it can be released externally or internally.</description>
+  <action url="%(content_url)s/content_status_modify?workflow_action=submit_internal" category="workflow" icon="">Submit for release</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="submit_external" title="Submit for external release" new_state="pending_external" trigger="USER" before_script="" after_script="">
+  <description>Puts your item in a review queue, so it can be released externally or internally.</description>
+  <action url="%(content_url)s/content_status_modify?workflow_action=submit_external" category="workflow" icon="">Submit for release</action>
+  <guard>
+  </guard>
+ </transition>
+ <worklist worklist_id="internal_reviewer_queue" title="">
+  <description>Reviewer tasks for internal releases</description>
+  <action url="%(portal_url)s/search?review_state=pending_internal" category="global" icon="">Pending (%(count)d)</action>
+  <guard>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+  <match name="review_state" values="pending_internal"/>
+ </worklist>
+ <worklist worklist_id="reviewer_queue" title="">
+  <description>Reviewer tasks for external releases</description>
+  <action url="%(portal_url)s/search?review_state=pending_external" category="global" icon="">Pending (%(count)d)</action>
+  <guard>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+  <match name="review_state" values="pending_external"/>
+ </worklist>
+ <variable variable_id="action" for_catalog="False" for_status="True" update_always="True">
+  <description>Previous transition</description>
+  <default>
+
+   <expression>transition/getId|nothing</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="actor" for_catalog="False" for_status="True" update_always="True">
+  <description>The ID of the user who performed the last transition</description>
+  <default>
+
+   <expression>user/getId</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="comments" for_catalog="False" for_status="True" update_always="True">
+  <description>Comment about the last transition</description>
+  <default>
+
+   <expression>python:state_change.kwargs.get('comment', '')</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="review_history" for_catalog="False" for_status="False" update_always="False">
+  <description>Provides access to workflow history</description>
+  <default>
+
+   <expression>state_change/getHistory</expression>
+  </default>
+  <guard>
+   <guard-permission>Request review</guard-permission>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+ </variable>
+ <variable variable_id="time" for_catalog="False" for_status="True" update_always="True">
+  <description>When the previous transition was performed</description>
+  <default>
+
+   <expression>state_change/getDateTime</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+</dc-workflow>
