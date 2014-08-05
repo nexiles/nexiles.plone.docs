@@ -42,7 +42,7 @@ def check(context, request):
 # GET DOCS
 @router.add_route("/docs/api/1.0", "docs", methods=["GET"])
 @router.add_route("/docs/api/1.0/<string:uid>", "docs", methods=["GET"])
-def getPublic(context, request, uid=None):
+def get(context, request, uid=None):
     """ get docs
     """
     items = get_items("docmeta", request, uid=uid, endpoint="docs")
@@ -88,11 +88,10 @@ def update(context, request, uid=None):
 def delete(context, request, uid=None):
     """ delete docs
     """
-    items = delete_items("docmeta", request, uid=uid, endpoint="docs")
+    result = delete_items("docmeta", request, uid=uid, endpoint="docs")
 
     return {
-        "count": len(items),
-        "items": rewriteItems(items, request)
+        "result": result
     }
 
 def rewriteItems(items, request):
