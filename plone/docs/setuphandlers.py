@@ -35,8 +35,7 @@ def setupVarious(context):
 DOCS = [
 
     # id, **kwargs
-    ("nexiles-documentation-project", {"version": "0.1", "icon": None, "title": "nexiles-documentation-project"}),
-    ("nexiles-starter2", {"version": "0.4", "icon": "nexiles.starter2/icon.png", "title": "nexiles.starter2"}),
+    ("nexiles-documentation-project", {"version": "0.1", "icon": None, "title": "nexiles-documentation-project"})
 
 ]
 

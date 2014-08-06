@@ -9,7 +9,7 @@ Create a docmeta object and put it in a folder
     Create the object::
 
     >>> from zope.component import createObject
-    >>> container = createObject('plone.docs.docmeta')
+    >>> container = createObject('docmeta')
 
     Verify it's type::
 

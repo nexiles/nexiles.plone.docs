@@ -20,13 +20,15 @@
     name="plone.docs"
     directory="resources" />
 
+  <i18n:registerTranslations directory="locales" />
+
   <!-- Register an extension profile to make the product installable
        in Plone -->
   <genericsetup:registerProfile
       name="default"
       title="Documentation"
       directory="profiles/default"
-      description="Provides a documentation meta data contenttype, a basic directory structure and default users."
+      description="Provides a documentation meta data object type, a custom workflow, default users, a home page and a custom folder."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 

@@ -5,8 +5,8 @@ version = '0.1'
 
 setup(name='plone.docs',
       version=version,
-      description="Documentation",
-      long_description=open("README.txt"),
+      description="Provides a documentation meta data object type, a custom workflow, default users, a home page and a custom folder.",
+      long_description=open("README.txt").read(),
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
@@ -15,8 +15,8 @@ setup(name='plone.docs',
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='',
-      author='Jan Müller',
-      author_email='jan.mueller@nexiles.com',
+      author='nexiles GmbH',
+      author_email='info@nexiles.com',
       url='http://svn.plone.org/svn/collective/',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),

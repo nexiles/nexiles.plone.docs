@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone.docs">
+<body>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main">
+        <div tal:replace="structure provider:plone.abovecontenttitle" />
+        <h1 class="documentFirstHeading" tal:content="context/title" />
+        <div tal:replace="structure provider:plone.belowcontenttitle" />
+        <p class="documentDescription" tal:content="context/description" />
+        <div tal:replace="structure provider:plone.abovecontentbody" />
+
+        <div tal:define="w python:view.w['version']">
+          <dl>
+            <dt tal:content="structure python:w.label" />
+            <dd tal:content="structure python:w.render()" />
+          </dl>
+        </div>
+        <div tal:define="w python:view.w['url']">
+          <dl>
+            <dt tal:content="structure python:w.label" />
+            <dd> <a tal:content="structure view/contextUrl" tal:attributes="href view/contextUrl" /> </dd>
+          </dl>
+        </div>
+        <div tal:define="w python:view.w['zip']">
+          <dl>
+            <dt tal:content="structure python:w.label" />
+            <dd> <a tal:content="structure view/contextZip" tal:attributes="href view/contextZip" /> </dd>
+          </dl>
+        </div>
+        <div tal:define="w python:view.w['icon']">
+          <dl>
+            <dt tal:content="structure python:w.label" />
+            <dd tal:condition="python:context.icon">
+              <img tal:attributes="src string:${view/baseUrl}${context/icon}" alt="[ X ]"/><br>
+              <a tal:content="structure string:${view/baseUrl}${context/icon}" tal:attributes="href string:${view/baseUrl}${context/icon}" />
+            </dd>
+            <dd tal:condition="python:not context.icon"><p>No icon specified</p></dd>
+          </dl>
+        </div>
+
+        <div tal:replace="structure provider:plone.belowcontentbody" />
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>

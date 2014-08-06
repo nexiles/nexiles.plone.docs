@@ -14,12 +14,12 @@
     <field name="zip" type="zope.schema.TextLine">
       <description>By default the API links to /*name of documentation*/v*version*.zip</description>
       <required>False</required>
-      <title>ZIP location</title>
+      <title>ZIP file</title>
     </field>
     <field name="icon" type="zope.schema.TextLine">
       <description/>
       <required>False</required>
-      <title>Icon location</title>
+      <title>Icon</title>
     </field>
   </schema>
 </model>

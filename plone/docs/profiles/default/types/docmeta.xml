@@ -19,12 +19,13 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">plone.dexterity.content.Container</property>
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
  </property>
- <property name="schema"></property>
+ <property name="schema">plone.docs.docmeta.Idocmeta</property>
+ <property name="klass">plone.docs.docmeta.docmeta</property>
+
  <property
     name="model_source">&lt;model xmlns:security="http://namespaces.plone.org/supermodel/security" xmlns:marshal="http://namespaces.plone.org/supermodel/marshal" xmlns:form="http://namespaces.plone.org/supermodel/form" xmlns="http://namespaces.plone.org/supermodel/schema"&gt;
   &lt;schema&gt;
@@ -42,12 +43,12 @@
   &lt;field name="zip" type="zope.schema.TextLine"&gt;
   &lt;description&gt;By default the API links to /*name of documentation*/v*version*.zip&lt;/description&gt;
   &lt;required&gt;False&lt;/required&gt;
-  &lt;title&gt;ZIP location&lt;/title&gt;
+  &lt;title&gt;ZIP file&lt;/title&gt;
   &lt;/field&gt;
   &lt;field name="icon" type="zope.schema.TextLine"&gt;
   &lt;description/&gt;
   &lt;required&gt;False&lt;/required&gt;
-  &lt;title&gt;Icon location&lt;/title&gt;
+  &lt;title&gt;Icon&lt;/title&gt;
   &lt;/field&gt;
   &lt;/schema&gt;
   &lt;/model&gt;</property>

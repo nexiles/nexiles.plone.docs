@@ -1,17 +1,8 @@
 from five import grok
 
-from z3c.form import group, field
-from zope import schema
-from zope.interface import invariant, Invalid
-from zope.schema.interfaces import IContextSourceBinder
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-
 from plone.dexterity.content import Item
 
 from plone.directives import dexterity, form
-from plone.app.textfield import RichText
-from plone.namedfile.field import NamedImage, NamedFile
-from plone.namedfile.field import NamedBlobImage, NamedBlobFile
 from plone.namedfile.interfaces import IImageScaleTraversable
 
 
@@ -22,7 +13,7 @@ from plone.docs import MessageFactory as _
 
 class Idocmeta(form.Schema, IImageScaleTraversable):
     """
-    Documentation Meta Data Object
+    Documentation meta data object
     """
 
     # If you want a schema-defined interface, delete the model.load
@@ -42,25 +33,25 @@ class docmeta(Item):
     grok.implements(Idocmeta)
 
     # Add your class methods and properties here
-    pass
 
 
 # View class
 # The view will automatically use a similarly named template in
 # docmeta_templates.
-# Template filenames should be all lower case.
-# The view will render when you request a content object with this
-# interface with "/@@sampleview" appended.
-# You may make this the default view for content objects
-# of this type by uncommenting the grok.name line below or by
-# changing the view class name and template filename to View / view.pt.
 
-class SampleView(grok.View):
-    """ sample view class """
+class View(dexterity.DisplayForm):
+    """ Default documentation view """
 
     grok.context(Idocmeta)
     grok.require('zope2.View')
 
-    # grok.name('view')
+    def baseUrl(self):
+      host_name = self.request.get_header("NEXILES_DOC_HOST", "http://localhost:8888")
+      doc_root  = self.request.get_header("NEXILES_DOC_ROOT", "/docs/")
+      return host_name + doc_root
 
-    # Add view methods here
+    def contextUrl(self):
+      return (self.context.url and self.baseUrl() + self.context.url) or self.baseUrl() + self.context.title + "/v" + self.context.version + "/"
+
+    def contextZip(self):
+      return (self.context.zip and self.baseUrl() + self.context.url) or self.baseUrl() + self.context.title + "/v" + self.context.version + ".zip"
