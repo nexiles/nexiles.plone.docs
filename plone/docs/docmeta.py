@@ -54,4 +54,4 @@ class View(dexterity.DisplayForm):
       return (self.context.url and self.baseUrl() + self.context.url) or self.baseUrl() + self.context.title + "/v" + self.context.version + "/"
 
     def contextZip(self):
-      return (self.context.zip and self.baseUrl() + self.context.url) or self.baseUrl() + self.context.title + "/v" + self.context.version + ".zip"
+      return (self.context.zip and self.baseUrl() + self.context.zip) or self.baseUrl() + self.context.title + "/v" + self.context.version + ".zip"

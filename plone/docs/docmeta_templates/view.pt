@@ -37,8 +37,9 @@
           <dl>
             <dt tal:content="structure python:w.label" />
             <dd tal:condition="python:context.icon">
-              <img tal:attributes="src string:${view/baseUrl}${context/icon}" alt="[ X ]"/><br>
-              <a tal:content="structure string:${view/baseUrl}${context/icon}" tal:attributes="href string:${view/baseUrl}${context/icon}" />
+                <a tal:attributes="href string:${view/baseUrl}${context/icon}">
+                  <img tal:attributes="src string:${view/baseUrl}${context/icon}" alt="[ X ]"/><br>
+                </a>
             </dd>
             <dd tal:condition="python:not context.icon"><p>No icon specified</p></dd>
           </dl>
