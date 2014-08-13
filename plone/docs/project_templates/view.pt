@@ -8,7 +8,8 @@
 <body>
 
 <metal:main fill-slot="main"
- tal:define="toLocalizedTime nocall: context/@@plone/toLocalizedTime;">
+ tal:define="toLocalizedTime nocall: context/@@plone/toLocalizedTime;
+             json view/json">
     <tal:main-macro metal:define-macro="main">
         <div tal:replace="structure provider:plone.abovecontenttitle" />
         <h1 class="documentFirstHeading" tal:content="context/title" />
@@ -26,7 +27,7 @@
           </dl>
         </div>
 
-        <div tal:condition="python: len(view.latest()) > 0">
+        <div tal:condition="python: len(json['latest']) > 0">
           <h3>Latest Documentation</h3>
           <table class="listing collection-listing" summary="Content listing"
               tal:define="pas_member context/@@pas_member;">
@@ -41,7 +42,7 @@
                   </tr>
               </thead>
               <tbody>
-                <tal:block repeat="doc view/latest">
+                <tal:block repeat="doc json/latest">
                     <tr class="odd">
                       <td class="listing-body-Title">
                           <a tal:attributes="href doc/id" tal:content="doc/title" />
@@ -79,7 +80,7 @@
                   </tr>
               </thead>
               <tbody>
-                <tal:block repeat="doc view/docs">
+                <tal:block repeat="doc json/docs">
                     <tr class="odd">
                       <td class="listing-body-Title">
                           <a tal:attributes="href doc/id" tal:content="doc/title" />

@@ -59,9 +59,7 @@ class docmeta(Item):
             "state": state,
             "visibility": visibility,
             "version": self.version,
-            "id":   self.id,
             "uid": self.UID(),
-            "creator": self.Creator(),
             "url": (self.url and prefix + self.url) or prefix + self.title + "/v" + self.version + "/",
             "zip": (self.zip and prefix + self.zip) or prefix + self.title + "/v" + self.version + ".zip",
             "icon": self.icon and prefix + self.icon

@@ -8,6 +8,8 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 
 from plone.docs import MessageFactory as _
 
+from plone import api
+
 # Interface class; used to define content-type schema.
 
 class IProject(form.Schema, IImageScaleTraversable):
@@ -34,6 +36,17 @@ class Project(Container):
     def toJson(self, request):
         """ Returns a dictionary that contains serializable information
         """
+        released = None
+        draft = None
+
+        for doc in self.values():
+            state = doc.portal_workflow.getInfoFor(doc, "review_state")
+            if "released" in state and (not released or doc.compareTo(released) > 0):
+                    released = doc
+
+            elif not "private" in state and (not draft or doc.compareTo(draft) > 0):
+                    draft = doc
+
         state = self.portal_workflow.getInfoFor(self, "review_state")
         if "external" in state:
             visibility = "external"
@@ -47,14 +60,19 @@ class Project(Container):
         elif state != "private":
             state = "draft"
 
-        return {
+        out = {
             "title": self.title,
             "state": state,
             "visibility": visibility,
             "uid": self.UID(),
-            "id":   self.id,
-            "docs": map(lambda item: item.toJson(request), self.values())
+            "docs": map(lambda item: item.toJson(request), self.values()),
+            "latest": {}
         }
+
+        if released: out["latest"]["released"] = released.UID()
+        if draft: out["latest"]["released"] = draft.UID()
+
+        return out
 
 
 # View class
@@ -73,37 +91,21 @@ class View(dexterity.DisplayForm):
     grok.context(IProject)
     grok.require('zope2.View')
 
-    def latest(self):
-        """Returns the latest draft and the latest release
+    def json(self):
+        """ Returns information for the view
         """
-        released = None
-        draft = None
+        json = self.context.toJson(self.request)
+        json["latest"] = [
+            self.extendJson(api.content.get(UID=json["latest"][key]).toJson(self.request)) for key in json["latest"].keys()
+        ]
+        json["docs"] = [
+            self.extendJson(doc) for doc in json["docs"]
+        ]
+        return json
 
-        for doc in self.context.values():
-            state = self.context.portal_workflow.getInfoFor(doc, "review_state")
-            if "released" in state and (not released or doc.compareTo(released) > 0):
-                    released = doc
-
-            elif not "private" in state and (not draft or doc.compareTo(draft) > 0):
-                    draft = doc
-
-        out = []
-        if released:
-            self.appendJson(released, out)
-        if draft:
-            self.appendJson(draft, out)
-        return out
-
-    def appendJson(self, doc, out):
-        json = doc.toJson(self.request)
-        json["modification_date"] = doc.modification_date
-        out.append(json)
-
-    def docs(self):
-        """Returns a dictionary of documentation to show
-        """
-        out = []
-        for doc in self.context.values():
-          self.appendJson(doc, out)
-
-        return out
+    def extendJson(self, doc):
+        obj = api.content.get(UID=doc["uid"])
+        doc["modification_date"] = obj.modification_date
+        doc["id"] = obj.id
+        doc["creator"] = obj.Creator()
+        return doc
