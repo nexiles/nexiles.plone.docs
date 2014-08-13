@@ -8,8 +8,6 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 
 from plone.docs import MessageFactory as _
 
-from distutils.version import StrictVersion
-
 # Interface class; used to define content-type schema.
 
 class IProject(form.Schema, IImageScaleTraversable):
@@ -33,8 +31,30 @@ class IProject(form.Schema, IImageScaleTraversable):
 class Project(Container):
     grok.implements(IProject)
 
-    # Add your class methods and properties here
-    pass
+    def toJson(self, request):
+        """ Returns a dictionary that contains serializable information
+        """
+        state = self.portal_workflow.getInfoFor(self, "review_state")
+        if "external" in state:
+            visibility = "external"
+        elif "internal" in state:
+            visibility = "internal"
+        else:
+            visibility = state
+
+        if "released" in state:
+            state = "released"
+        elif state != "private":
+            state = "draft"
+
+        return {
+            "title": self.title,
+            "state": state,
+            "visibility": visibility,
+            "uid": self.UID(),
+            "id":   self.id,
+            "docs": map(lambda item: item.toJson(request), self.values())
+        }
 
 
 # View class
@@ -61,39 +81,29 @@ class View(dexterity.DisplayForm):
 
         for doc in self.context.values():
             state = self.context.portal_workflow.getInfoFor(doc, "review_state")
-            if "released" in state:
-                if not released or StrictVersion(doc.version) > StrictVersion(released.version):
+            if "released" in state and (not released or doc.compareTo(released) > 0):
                     released = doc
 
-            elif not "private" in state:
-                if not draft or StrictVersion(doc.version) > StrictVersion(draft.version):
+            elif not "private" in state and (not draft or doc.compareTo(draft) > 0):
                     draft = doc
 
         out = []
         if released:
-            out.append(buildRowData(released))
+            self.appendJson(released, out)
         if draft:
-            out.append(buildRowData(draft))
-
+            self.appendJson(draft, out)
         return out
+
+    def appendJson(self, doc, out):
+        json = doc.toJson(self.request)
+        json["modification_date"] = doc.modification_date
+        out.append(json)
 
     def docs(self):
         """Returns a dictionary of documentation to show
         """
         out = []
         for doc in self.context.values():
-          out.append(buildRowData(doc))
+          self.appendJson(doc, out)
 
         return out
-
-# Helper Methods
-
-def buildRowData(doc):
-    return {
-        "title": doc.title,
-        "version": doc.version,
-        "id":   doc.id,
-        "modification_date": doc.modification_date,
-        "creator": doc.Creator(),
-        "state": doc.portal_workflow.getInfoFor(doc, "review_state").title().replace("_", " ")
-    }

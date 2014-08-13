@@ -7,7 +7,8 @@
       i18n:domain="plone.docs">
 <body>
 
-<metal:main fill-slot="main">
+<metal:main fill-slot="main"
+ tal:define="doc view/json">
     <tal:main-macro metal:define-macro="main">
         <div tal:replace="structure provider:plone.abovecontenttitle" />
         <h1 class="documentFirstHeading" tal:content="context/title" />
@@ -24,24 +25,24 @@
         <div tal:define="w python:view.w['url']">
           <dl>
             <dt tal:content="structure python:w.label" />
-            <dd> <a tal:content="structure view/contextUrl" tal:attributes="href view/contextUrl" /> </dd>
+            <dd> <a tal:content="structure doc/url" tal:attributes="href doc/url" /> </dd>
           </dl>
         </div>
         <div tal:define="w python:view.w['zip']">
           <dl>
             <dt tal:content="structure python:w.label" />
-            <dd> <a tal:content="structure view/contextZip" tal:attributes="href view/contextZip" /> </dd>
+            <dd> <a tal:content="structure doc/zip" tal:attributes="href doc/zip" /> </dd>
           </dl>
         </div>
         <div tal:define="w python:view.w['icon']">
           <dl>
             <dt tal:content="structure python:w.label" />
-            <dd tal:condition="python:context.icon">
-                <a tal:attributes="href string:${view/baseUrl}${context/icon}">
-                  <img tal:attributes="src string:${view/baseUrl}${context/icon}" alt="[ X ]"/><br>
+            <dd tal:condition="context/icon">
+                <a tal:attributes="href context/icon">
+                  <img tal:attributes="src doc/icon" alt="[ X ]"/><br>
                 </a>
             </dd>
-            <dd tal:condition="python:not context.icon"><p>No icon specified</p></dd>
+            <dd tal:condition="not: doc/icon"><p>No icon specified</p></dd>
           </dl>
         </div>
 

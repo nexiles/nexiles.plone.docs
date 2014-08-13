@@ -21,19 +21,13 @@ def fix_missing_uids(items):
     return items
 
 
-@router.add_route("/docs/api/1.0/login", "login", methods=["GET"])
-def check(context, request):
+@router.add_route("/plone/api/1.0/login", "login", methods=["GET"])
+def checkLogin(context, request):
     """ check for login
     """
-
-    if api.user.is_anonymous():
-        return {
-            "logged_in": False
-        }
-
     member = api.user.get_current()
     return {
-        "logged_in": True,
+        "logged_in": not api.user.is_anonymous(),
         "email": member.getProperty("email"),
         "name": member.getProperty("fullname"),
     }
@@ -45,11 +39,11 @@ def check(context, request):
 def get(context, request, uid=None):
     """ get docs
     """
-    items = get_items("docmeta", request, uid=uid, endpoint="docs")
+    items = get_items("plone.docs.docmeta", request, uid=uid, endpoint="docs")
 
     return {
         "count": len(items),
-        "items": rewriteItems(items, request),
+        "items": rewrite(items, request),
     }
 
 # CREATE
@@ -58,12 +52,12 @@ def get(context, request, uid=None):
 def create(context, request, uid=None):
     """ create docs
     """
-    items = create_items("docmeta", request, uid=uid, endpoint="docs")
+    items = create_items("plone.docs.docmeta", request, uid=uid, endpoint="docs")
     items = fix_missing_uids(items)
 
     return {
         "count": len(items),
-        "items": rewriteItems(items, request)
+        "items": rewrite(items, request)
     }
 
 
@@ -73,12 +67,12 @@ def create(context, request, uid=None):
 def update(context, request, uid=None):
     """ update docs
     """
-    items = update_items("docmeta", request, uid=uid, endpoint="docs")
+    items = update_items("plone.docs.docmeta", request, uid=uid, endpoint="docs")
     items = fix_missing_uids(items)
 
     return {
         "count": len(items),
-        "items": rewriteItems(items, request)
+        "items": rewrite(items, request)
     }
 
 
@@ -88,38 +82,21 @@ def update(context, request, uid=None):
 def delete(context, request, uid=None):
     """ delete docs
     """
-    result = delete_items("docmeta", request, uid=uid, endpoint="docs")
+    result = delete_items("plone.docs.docmeta", request, uid=uid, endpoint="docs")
 
     return {
         "result": result
     }
 
-def rewriteItems(items, request):
+def rewrite(items, request):
     """ map all items to the refetched items
     """
-    host_name = request.get_header("NEXILES_DOC_HOST", "http://localhost:8888")
-    doc_root  = request.get_header("NEXILES_DOC_ROOT", "/docs/")
-    prefix = host_name + doc_root
-    return map(lambda item: refetch(item["uid"], request, prefix), items)
+    return map(lambda item: refetch(item["uid"], request), items)
 
-def refetch(id, request, prefix):
+def refetch(uid, request):
     """ generate a new item with all necessary attributes
     """
-    item = get_items("docmeta", request, uid=id, endpoint="docs")[0]
-
-    state = item["workflow_info"]["status"]
-    if state == "Externally released" or state == "Internally released":
-        state = "released"
-    elif state == "External draft" or state == "Internal draft":
-        state = "draft"
-
-    return {
-        "name": item["title"],
-        "state": state,
-        "version": item["version"],
-        "url": (item["url"] and prefix + item["url"]) or prefix + item["title"] + "/v" + item["version"] + "/",
-        "zip": (item["zip"] and prefix + item["zip"]) or prefix + item["title"] + "/v" + item["version"] + ".zip",
-        "icon": item["icon"] and prefix + item["icon"]
-    }
+    item = api.content.get(UID=uid)
+    return item.toJson(request)
 
 # vim: set ft=python ts=4 sw=4 expandtab :

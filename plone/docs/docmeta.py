@@ -8,6 +8,8 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 
 from plone.docs import MessageFactory as _
 
+from distutils.version import StrictVersion
+
 
 # Interface class; used to define content-type schema.
 
@@ -32,7 +34,50 @@ class Idocmeta(form.Schema, IImageScaleTraversable):
 class docmeta(Item):
     grok.implements(Idocmeta)
 
-    # Add your class methods and properties here
+    def toJson(self, request):
+        """ Returns a dictionary that contains serializable information
+        """
+        host_name = request.get_header("NEXILES_DOC_HOST", "http://localhost:8888")
+        doc_root  = request.get_header("NEXILES_DOC_ROOT", "/docs/")
+        prefix = host_name + doc_root
+
+        state = self.portal_workflow.getInfoFor(self, "review_state")
+        if "external" in state:
+            visibility = "external"
+        elif "internal" in state:
+            visibility = "internal"
+        else:
+            visibility = state
+
+        if "released" in state:
+            state = "released"
+        elif state != "private":
+            state = "draft"
+
+        return {
+            "title": self.title,
+            "state": state,
+            "visibility": visibility,
+            "version": self.version,
+            "id":   self.id,
+            "uid": self.UID(),
+            "creator": self.Creator(),
+            "url": (self.url and prefix + self.url) or prefix + self.title + "/v" + self.version + "/",
+            "zip": (self.zip and prefix + self.zip) or prefix + self.title + "/v" + self.version + ".zip",
+            "icon": self.icon and prefix + self.icon
+        }
+
+    def compareTo(self, doc):
+        if doc is None:
+            raise TypeError("Argument must not be None")
+        if not isinstance(doc, docmeta):
+            raise TypeError("Argument must be an instance of plone.docs.docmeta")
+        if self is doc: return 0
+        v1 = StrictVersion(self.version)
+        v2 = StrictVersion(doc.version)
+        if v1 == v2: return 0
+        if v1 < v2: return -1
+        return 1
 
 
 # View class
@@ -45,13 +90,5 @@ class View(dexterity.DisplayForm):
     grok.context(Idocmeta)
     grok.require('zope2.View')
 
-    def baseUrl(self):
-      host_name = self.request.get_header("NEXILES_DOC_HOST", "http://localhost:8888")
-      doc_root  = self.request.get_header("NEXILES_DOC_ROOT", "/docs/")
-      return host_name + doc_root
-
-    def contextUrl(self):
-      return (self.context.url and self.baseUrl() + self.context.url) or self.baseUrl() + self.context.title + "/v" + self.context.version + "/"
-
-    def contextZip(self):
-      return (self.context.zip and self.baseUrl() + self.context.zip) or self.baseUrl() + self.context.title + "/v" + self.context.version + ".zip"
+    def json(self):
+        return self.context.toJson(self.request)

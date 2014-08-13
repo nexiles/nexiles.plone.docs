@@ -37,6 +37,7 @@
                       <th class="listing-header-Creator" style="cursor: pointer;">Creator<span class="sortdirection"> </span></th>
                       <th class="listing-header-ModificationDate" style="cursor: pointer;">Modification Date<span class="sortdirection"> </span></th>
                       <th class="listing-header-review_state" style="cursor: pointer;">State<span class="sortdirection"> </span></th>
+                      <th class="listing-header-visibility" style="cursor: pointer;">Visibility<span class="sortdirection"> </span></th>
                   </tr>
               </thead>
               <tbody>
@@ -56,6 +57,7 @@
                       </td>
                       <td class="listing-body-ModificationDate" tal:content="python:toLocalizedTime(doc['modification_date'],long_format=1)" />
                       <td class="listing-body-review_state" tal:content="doc/state" />
+                      <td class="listing-body-visibility" tal:content="doc/visibility" />
                     </tr>
                 </tal:block>
               </tbody>
@@ -73,6 +75,7 @@
                       <th class="listing-header-Creator" style="cursor: pointer;">Creator<span class="sortdirection"> </span></th>
                       <th class="listing-header-ModificationDate" style="cursor: pointer;">Modification Date<span class="sortdirection"> </span></th>
                       <th class="listing-header-review_state" style="cursor: pointer;">State<span class="sortdirection"> </span></th>
+                      <th class="listing-header-visibility" style="cursor: pointer;">Visibility<span class="sortdirection"> </span></th>
                   </tr>
               </thead>
               <tbody>
@@ -92,6 +95,7 @@
                       </td>
                       <td class="listing-body-ModificationDate" tal:content="python:toLocalizedTime(doc['modification_date'],long_format=1)" />
                       <td class="listing-body-review_state" tal:content="doc/state" />
+                      <td class="listing-body-visibility" tal:content="doc/visibility" />
                     </tr>
                 </tal:block>
               </tbody>
