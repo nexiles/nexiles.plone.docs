@@ -32,6 +32,13 @@ def setupVarious(context):
     setup_doc_folder(portal)
     setup_docs(portal)
 
+PROJECTS = [
+
+    # id, **kwargs
+    ("nexiles-documentation-project", {"title": "nexiles-documentation-project", "github": "https://github.com/nexiles/nexiles-documentation-project"})
+
+]
+
 DOCS = [
 
     # id, **kwargs
@@ -116,8 +123,8 @@ def setup_doc_folder(portal):
 
     # only allow Documentation to be added
     docs.setConstrainTypesMode(1)
-    docs.setLocallyAllowedTypes(("docmeta", "Folder"))
-    docs.setImmediatelyAddableTypes(("docmeta", "Folder"))
+    docs.setLocallyAllowedTypes(("plone.docs.docmeta", "plone.docs.project"))
+    docs.setImmediatelyAddableTypes(("plone.docs.docmeta", "plone.docs.project"))
 
     # local roles
     docs.manage_setLocalRoles("internal_users", ["Reader"])
@@ -138,18 +145,31 @@ def setup_docs(portal):
 
     docs = portal.get("documentation", None)
 
-    for doc in DOCS:
-        doc_id, kwargs = doc
+    for project in PROJECTS:
+        project_id, kwargs = project
 
         # Documentation exists already, skipping
-        if doc_id in docs:
-            logger.info("*** Documentation '%s' already in Documentation Folder [SKIP]" % doc_id)
+        if project_id in docs:
+            logger.info("*** Project '%s' already in Documentation Folder [SKIP]" % project_id)
             continue
 
-        logger.info("*** Creating Documentation '%s' ..." % doc_id)
-        result = create(docs, "docmeta", doc_id, **kwargs)
+        logger.info("*** Creating Project '%s' ..." % project_id)
+        result = create(docs, "plone.docs.project", project_id, **kwargs)
         result.manage_setLocalRoles("developer", ["Owner"])
-        logger.info("*** Creating Documentation '%s' [DONE]" % doc_id)
+        logger.info("*** Creating Project '%s' [DONE]" % project_id)
+
+        for doc in DOCS:
+            doc_id, kwargs = doc
+
+            # Documentation exists already, skipping
+            if doc_id in result:
+                logger.info("*** Documentation '%s' already in Project [SKIP]" % doc_id)
+                continue
+
+            logger.info("*** Creating Documentation '%s' ..." % doc_id)
+            d = create(result, "plone.docs.docmeta", doc_id, **kwargs)
+            d.manage_setLocalRoles("developer", ["Owner"])
+            logger.info("*** Creating Documentation '%s' [DONE]" % doc_id)
 
 
 # vim: set ft=python ts=4 sw=4 expandtab :

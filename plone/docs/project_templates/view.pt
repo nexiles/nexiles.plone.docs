@@ -1,0 +1,106 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone.docs">
+<body>
+
+<metal:main fill-slot="main"
+ tal:define="toLocalizedTime nocall: context/@@plone/toLocalizedTime;">
+    <tal:main-macro metal:define-macro="main">
+        <div tal:replace="structure provider:plone.abovecontenttitle" />
+        <h1 class="documentFirstHeading" tal:content="context/title" />
+        <div tal:replace="structure provider:plone.belowcontenttitle" />
+        <p class="documentDescription" tal:content="context/description" />
+        <div tal:replace="structure provider:plone.abovecontentbody" />
+
+        <div tal:define="w python:view.w['github']">
+          <dl>
+            <dt><h3 tal:content="structure python:w.label" /></dt>
+            <dd>
+              <a tal:attributes="href string:${context/github}">Repository</a><br>
+              <a tal:attributes="href string:${context/github}/issues">Issue Tracker</a>
+            </dd>
+          </dl>
+        </div>
+
+        <div tal:condition="python: len(view.latest()) > 0">
+          <h3>Latest Documentation</h3>
+          <table class="listing collection-listing" summary="Content listing"
+              tal:define="pas_member context/@@pas_member;">
+              <thead>
+                  <tr>
+                      <th class="listing-header-Title" style="cursor: pointer;">Title<span class="sortdirection"> </span></th>
+                      <th class="listing-header-Version" style="cursor: pointer;">Version<span class="sortdirection"> </span></th>
+                      <th class="listing-header-Creator" style="cursor: pointer;">Creator<span class="sortdirection"> </span></th>
+                      <th class="listing-header-ModificationDate" style="cursor: pointer;">Modification Date<span class="sortdirection"> </span></th>
+                      <th class="listing-header-review_state" style="cursor: pointer;">State<span class="sortdirection"> </span></th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tal:block repeat="doc view/latest">
+                    <tr class="odd">
+                      <td class="listing-body-Title">
+                          <a tal:attributes="href doc/id" tal:content="doc/title" />
+                      </td>
+                      <td class="listing-body-Version" tal:content="doc/version" />
+                      <td class="listing-body-Creator"
+                          tal:define="author python:pas_member.info(doc['creator']);
+                                      name python:author['fullname'] or author['username']">
+                          <a tal:condition="author"
+                             tal:attributes="href string:author/${author/username};
+                                             title name"
+                             tal:content="name" />
+                      </td>
+                      <td class="listing-body-ModificationDate" tal:content="python:toLocalizedTime(doc['modification_date'],long_format=1)" />
+                      <td class="listing-body-review_state" tal:content="doc/state" />
+                    </tr>
+                </tal:block>
+              </tbody>
+          </table>
+        </div>
+
+        <div>
+          <h3>All Documentation</h3>
+          <table class="listing collection-listing" summary="Content listing"
+              tal:define="pas_member context/@@pas_member;">
+              <thead>
+                  <tr>
+                      <th class="listing-header-Title" style="cursor: pointer;">Title<span class="sortdirection"> </span></th>
+                      <th class="listing-header-Version" style="cursor: pointer;">Version<span class="sortdirection"> </span></th>
+                      <th class="listing-header-Creator" style="cursor: pointer;">Creator<span class="sortdirection"> </span></th>
+                      <th class="listing-header-ModificationDate" style="cursor: pointer;">Modification Date<span class="sortdirection"> </span></th>
+                      <th class="listing-header-review_state" style="cursor: pointer;">State<span class="sortdirection"> </span></th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tal:block repeat="doc view/docs">
+                    <tr class="odd">
+                      <td class="listing-body-Title">
+                          <a tal:attributes="href doc/id" tal:content="doc/title" />
+                      </td>
+                      <td class="listing-body-Version" tal:content="doc/version" />
+                      <td class="listing-body-Creator"
+                          tal:define="author python:pas_member.info(doc['creator']);
+                                      name python:author['fullname'] or author['username']">
+                          <a tal:condition="author"
+                             tal:attributes="href string:author/${author/username};
+                                             title name"
+                             tal:content="name" />
+                      </td>
+                      <td class="listing-body-ModificationDate" tal:content="python:toLocalizedTime(doc['modification_date'],long_format=1)" />
+                      <td class="listing-body-review_state" tal:content="doc/state" />
+                    </tr>
+                </tal:block>
+              </tbody>
+          </table>
+        </div>
+
+        <div tal:replace="structure provider:plone.belowcontentbody" />
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>

@@ -52,6 +52,14 @@ def test_suite():
 
         # -*- extra stuff goes here -*-
 
+        # Integration tests for Project
+        ztc.ZopeDocFileSuite(
+            'Project.txt',
+            package='plone.docs',
+            optionflags = OPTION_FLAGS,
+            test_class=TestCase),
+
+
         # Integration tests for docmeta
         ztc.ZopeDocFileSuite(
             'docmeta.txt',
