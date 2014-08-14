@@ -96,10 +96,9 @@ def rewrite(items, request):
 def refetch(item, request):
     """ generate a new item with all necessary attributes
     """
-    out = api.content.get(UID=item["uid"])
-    out = out.toJson(request)
-    #out["url"] = item["url"]
-    #out["api_url"] = item["api_url"]
+    obj = api.content.get(UID=item["uid"])
+    out = obj.toJson(request)
+    out["api_url"] = item["api_url"]
     return out
 
 # vim: set ft=python ts=4 sw=4 expandtab :

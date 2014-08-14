@@ -34,13 +34,18 @@ class IProject(form.Schema, IImageScaleTraversable):
 class Project(Container):
     grok.implements(IProject)
 
+    def docmetas(self):
+      return filter(lambda v: isinstance(v, docmeta), self.values())
+
     def toJson(self, request):
         """ Returns a dictionary that contains serializable information
         """
         released = None
         draft = None
 
-        for doc in self.values():
+        docs = self.docmetas()
+
+        for doc in docs:
             state = doc.portal_workflow.getInfoFor(doc, "review_state")
             if "released" in state and (not released or doc.compareTo(released) > 0):
                     released = doc
@@ -68,12 +73,13 @@ class Project(Container):
             "github": self.github,
             "uid": self.UID(),
             "id": self.id,
-            "docs": map(lambda item: item.toJson(request), filter(lambda item: isinstance(item, docmeta), self.values())),
+            "url": self.absolute_url(),
+            "docs": map(lambda item: item.toJson(request), docs),
             "latest": {}
         }
 
         if released: out["latest"]["released"] = released.UID()
-        if draft: out["latest"]["released"] = draft.UID()
+        if draft: out["latest"]["draft"] = draft.UID()
 
         return out
 
