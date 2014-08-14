@@ -22,10 +22,10 @@
             <dd tal:content="structure python:w.render()" />
           </dl>
         </div>
-        <div tal:define="w python:view.w['url']">
+        <div tal:define="w python:view.w['doc_url']">
           <dl>
             <dt tal:content="structure python:w.label" />
-            <dd> <a tal:content="structure doc/url" tal:attributes="href doc/url" /> </dd>
+            <dd> <a tal:content="structure doc/doc_url" tal:attributes="href doc/doc_url" /> </dd>
           </dl>
         </div>
         <div tal:define="w python:view.w['zip']">
@@ -34,15 +34,15 @@
             <dd> <a tal:content="structure doc/zip" tal:attributes="href doc/zip" /> </dd>
           </dl>
         </div>
-        <div tal:define="w python:view.w['icon']">
+        <div tal:define="w python:view.w['doc_icon']">
           <dl>
             <dt tal:content="structure python:w.label" />
-            <dd tal:condition="context/icon">
-                <a tal:attributes="href context/icon">
-                  <img tal:attributes="src doc/icon" alt="[ X ]"/><br>
+            <dd tal:condition="doc/doc_icon">
+                <a tal:attributes="href doc/doc_icon">
+                  <img tal:attributes="src doc/doc_icon" alt="[ X ]"/><br>
                 </a>
             </dd>
-            <dd tal:condition="not: doc/icon"><p>No icon specified</p></dd>
+            <dd tal:condition="not: doc/doc_icon"><p>No icon specified</p></dd>
           </dl>
         </div>
 

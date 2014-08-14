@@ -91,12 +91,15 @@ def delete(context, request, uid=None):
 def rewrite(items, request):
     """ map all items to the refetched items
     """
-    return map(lambda item: refetch(item["uid"], request), items)
+    return map(lambda item: refetch(item, request), items)
 
-def refetch(uid, request):
+def refetch(item, request):
     """ generate a new item with all necessary attributes
     """
-    item = api.content.get(UID=uid)
-    return item.toJson(request)
+    out = api.content.get(UID=item["uid"])
+    out = out.toJson(request)
+    out["url"] = item["url"]
+    out["api_url"] = item["api_url"]
+    return out
 
 # vim: set ft=python ts=4 sw=4 expandtab :

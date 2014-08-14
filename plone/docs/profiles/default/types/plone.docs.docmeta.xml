@@ -35,7 +35,7 @@
   &lt;min_length&gt;3&lt;/min_length&gt;
   &lt;title&gt;Version&lt;/title&gt;
   &lt;/field&gt;
-  &lt;field name="url" type="zope.schema.TextLine"&gt;
+  &lt;field name="doc_url" type="zope.schema.TextLine"&gt;
   &lt;description&gt;By default the API links to /*name of documentation*/v*version*/index.html&lt;/description&gt;
   &lt;required&gt;False&lt;/required&gt;
   &lt;title&gt;Web URL&lt;/title&gt;
@@ -45,7 +45,7 @@
   &lt;required&gt;False&lt;/required&gt;
   &lt;title&gt;ZIP file&lt;/title&gt;
   &lt;/field&gt;
-  &lt;field name="icon" type="zope.schema.TextLine"&gt;
+  &lt;field name="doc_icon" type="zope.schema.TextLine"&gt;
   &lt;description/&gt;
   &lt;required&gt;False&lt;/required&gt;
   &lt;title&gt;Icon&lt;/title&gt;

@@ -61,9 +61,9 @@ class docmeta(Item):
             "version": self.version,
             "uid": self.UID(),
             "id": self.id,
-            "url": (self.url and prefix + self.url) or prefix + self.id + "/v" + self.version + "/",
-            "zip": (self.zip and prefix + self.zip) or prefix + self.id + "/v" + self.version + ".zip",
-            "icon": self.icon and prefix + self.icon
+            "doc_url": (self.doc_url and prefix + self.doc_url) or prefix + self.id + "/" + self.version + "/",
+            "zip": (self.zip and prefix + self.zip) or prefix + self.id + "/" + self.version + ".zip",
+            "doc_icon": self.doc_icon and prefix + self.doc_icon
         }
 
     def compareTo(self, doc):

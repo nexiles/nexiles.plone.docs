@@ -13,6 +13,7 @@ from plone.jsonapi.routes.api import delete_items
 from plone import api
 
 from plone.docs import doc_api
+from plone.docs.doc_api import rewrite
 
 
 # see https://github.com/nexiles/nexiles.plone.docs/issues/2
@@ -77,16 +78,5 @@ def delete(context, request, uid=None):
     return {
         "result": result
     }
-
-def rewrite(items, request):
-    """ map all items to the refetched items
-    """
-    return map(lambda item: refetch(item["uid"], request), items)
-
-def refetch(uid, request):
-    """ generate a new item with all necessary attributes
-    """
-    item = api.content.get(UID=uid)
-    return item.toJson(request)
 
 # vim: set ft=python ts=4 sw=4 expandtab :

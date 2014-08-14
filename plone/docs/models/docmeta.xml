@@ -6,7 +6,7 @@
       <min_length>3</min_length>
       <title>Version</title>
     </field>
-    <field name="url" type="zope.schema.TextLine">
+    <field name="doc_url" type="zope.schema.TextLine">
       <description>By default the API links to /*name of documentation*/v*version*/index.html</description>
       <required>False</required>
       <title>Web URL</title>
@@ -16,7 +16,7 @@
       <required>False</required>
       <title>ZIP file</title>
     </field>
-    <field name="icon" type="zope.schema.TextLine">
+    <field name="doc_icon" type="zope.schema.TextLine">
       <description/>
       <required>False</required>
       <title>Icon</title>
