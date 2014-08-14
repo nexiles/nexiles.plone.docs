@@ -35,8 +35,8 @@
   <!-- Upgrade older versions to new contenttypes -->
 
   <genericsetup:upgradeSteps
-    source="1"
-    destination="2"
+    source="2"
+    destination="3"
     profile="plone.docs:default">
 
     <genericsetup:upgradeStep
