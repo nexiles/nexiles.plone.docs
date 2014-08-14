@@ -98,8 +98,8 @@ def refetch(item, request):
     """
     out = api.content.get(UID=item["uid"])
     out = out.toJson(request)
-    out["url"] = item["url"]
-    out["api_url"] = item["api_url"]
+    #out["url"] = item["url"]
+    #out["api_url"] = item["api_url"]
     return out
 
 # vim: set ft=python ts=4 sw=4 expandtab :
