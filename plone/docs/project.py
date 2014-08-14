@@ -7,6 +7,7 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 
 
 from plone.docs import MessageFactory as _
+from plone.docs.docmeta import docmeta
 
 from plone import api
 
@@ -67,7 +68,7 @@ class Project(Container):
             "github": self.github,
             "uid": self.UID(),
             "id": self.id,
-            "docs": map(lambda item: item.toJson(request), self.values()),
+            "docs": map(lambda item: item.toJson(request), filter(lambda item: isinstance(item, docmeta), self.values())),
             "latest": {}
         }
 
