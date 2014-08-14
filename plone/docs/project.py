@@ -64,6 +64,7 @@ class Project(Container):
             "title": self.title,
             "state": state,
             "visibility": visibility,
+            "github": self.github,
             "uid": self.UID(),
             "docs": map(lambda item: item.toJson(request), self.values()),
             "latest": {}

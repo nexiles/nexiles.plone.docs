@@ -21,8 +21,8 @@
           <dl>
             <dt><h3 tal:content="structure python:w.label" /></dt>
             <dd>
-              <a tal:attributes="href string:${context/github}">Repository</a><br>
-              <a tal:attributes="href string:${context/github}/issues">Issue Tracker</a>
+              <a tal:attributes="href json/github">Repository</a><br>
+              <a tal:attributes="href string:${json/github}/issues">Issue Tracker</a>
             </dd>
           </dl>
         </div>

@@ -34,8 +34,8 @@ def checkLogin(context, request):
 
 
 # GET DOCS
-@router.add_route("/docs/api/1.0", "docs", methods=["GET"])
-@router.add_route("/docs/api/1.0/<string:uid>", "docs", methods=["GET"])
+@router.add_route("/docs/api/1.0/docmetas", "docs", methods=["GET"])
+@router.add_route("/docs/api/1.0/docmetas/<string:uid>", "docs", methods=["GET"])
 def get(context, request, uid=None):
     """ get docs
     """
@@ -47,8 +47,8 @@ def get(context, request, uid=None):
     }
 
 # CREATE
-@router.add_route("/docs/api/1.0/create", "docs_create", methods=["POST"])
-@router.add_route("/docs/api/1.0/create/<string:uid>", "docs_create", methods=["POST"])
+@router.add_route("/docs/api/1.0/docmetas/create", "docs_create", methods=["POST"])
+@router.add_route("/docs/api/1.0/docmetas/create/<string:uid>", "docs_create", methods=["POST"])
 def create(context, request, uid=None):
     """ create docs
     """
@@ -62,8 +62,8 @@ def create(context, request, uid=None):
 
 
 # UPDATE
-@router.add_route("/docs/api/1.0/update", "docs_update", methods=["POST"])
-@router.add_route("/docs/api/1.0/update/<string:uid>", "docs_update", methods=["POST"])
+@router.add_route("/docs/api/1.0/docmetas/update", "docs_update", methods=["POST"])
+@router.add_route("/docs/api/1.0/docmetas/update/<string:uid>", "docs_update", methods=["POST"])
 def update(context, request, uid=None):
     """ update docs
     """
@@ -77,8 +77,8 @@ def update(context, request, uid=None):
 
 
 # DELETE
-@router.add_route("/docs/api/1.0/delete", "docs_delete", methods=["POST"])
-@router.add_route("/docs/api/1.0/delete/<string:uid>", "docs_delete", methods=["POST"])
+@router.add_route("/docs/api/1.0/docmetas/delete", "docs_delete", methods=["POST"])
+@router.add_route("/docs/api/1.0/docmetas/delete/<string:uid>", "docs_delete", methods=["POST"])
 def delete(context, request, uid=None):
     """ delete docs
     """
