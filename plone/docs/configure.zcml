@@ -32,6 +32,27 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <!-- Upgrade older versions to new contenttypes -->
+
+  <genericsetup:upgradeSteps
+    source="1"
+    destination="2"
+    profile="plone.docs:default">
+
+    <genericsetup:upgradeStep
+        title="Convert docmetas"
+        description="docmeta is now plone.docs.docmeta"
+        handler="plone.docs.upgrades.convert_docs"
+        />
+
+    <genericsetup:upgradeStep
+        title="Fix documentation folder"
+        description="projects are now allowed in the doc folder"
+        handler="plone.docs.upgrades.update_doc_folder"
+        />
+
+  </genericsetup:upgradeSteps>
+
   <!-- -*- extra stuff goes here -*- -->
 
 </configure>
