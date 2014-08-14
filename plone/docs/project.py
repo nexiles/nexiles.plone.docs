@@ -66,6 +66,7 @@ class Project(Container):
             "visibility": visibility,
             "github": self.github,
             "uid": self.UID(),
+            "id": self.id,
             "docs": map(lambda item: item.toJson(request), self.values()),
             "latest": {}
         }
@@ -107,6 +108,5 @@ class View(dexterity.DisplayForm):
     def extendJson(self, doc):
         obj = api.content.get(UID=doc["uid"])
         doc["modification_date"] = obj.modification_date
-        doc["id"] = obj.id
         doc["creator"] = obj.Creator()
         return doc

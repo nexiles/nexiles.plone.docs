@@ -47,7 +47,7 @@ def create(context, request, uid=None):
 
     return {
         "count": len(items),
-        "items": rewriteItems(items, request)
+        "items": rewrite(items, request)
     }
 
 
@@ -62,7 +62,7 @@ def update(context, request, uid=None):
 
     return {
         "count": len(items),
-        "items": rewriteItems(items, request)
+        "items": rewrite(items, request)
     }
 
 
