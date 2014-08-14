@@ -65,7 +65,7 @@
           </table>
         </div>
 
-        <div>
+        <div tal:condition="python: len(json['docs']) > 0">
           <h3>All Documentation</h3>
           <table class="listing collection-listing" summary="Content listing"
               tal:define="pas_member context/@@pas_member;">
