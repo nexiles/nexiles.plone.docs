@@ -30,13 +30,13 @@ def convert_docs(context, logger=None):
         source.id = source.id + "_clone"
         doc = api.content.create(
             type='plone.docs.docmeta',
-            title=doc.title,
-            container=doc.getParentNode())
-        doc.version = doc.version
-        doc.url = doc.url
-        doc.zip = doc.zip
-        doc.icon = doc.icon
-        doc.setCreators(doc.Creator())
+            title=source.title,
+            container=source.getParentNode())
+        doc.version = source.version
+        doc.url = source.url
+        doc.zip = source.zip
+        doc.icon = source.icon
+        doc.setCreators(source.Creator())
         api.content.delete(obj = source)
         count += 1
 
