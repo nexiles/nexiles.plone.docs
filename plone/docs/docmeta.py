@@ -61,8 +61,8 @@ class docmeta(Item):
             "version": self.version,
             "uid": self.UID(),
             "id": self.id,
-            "url": (self.url and prefix + self.url) or prefix + self.title + "/v" + self.version + "/",
-            "zip": (self.zip and prefix + self.zip) or prefix + self.title + "/v" + self.version + ".zip",
+            "url": (self.url and prefix + self.url) or prefix + self.id + "/v" + self.version + "/",
+            "zip": (self.zip and prefix + self.zip) or prefix + self.id + "/v" + self.version + ".zip",
             "icon": self.icon and prefix + self.icon
         }
 
