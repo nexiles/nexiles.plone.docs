@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
-
 from plone.jsonapi.core import router
 
 # CRUD
@@ -10,18 +8,8 @@ from plone.jsonapi.routes.api import create_items
 from plone.jsonapi.routes.api import update_items
 from plone.jsonapi.routes.api import delete_items
 
-from plone import api
-
-from plone.docs import doc_api
 from plone.docs.doc_api import rewrite
-
-
-# see https://github.com/nexiles/nexiles.plone.docs/issues/2
-def fix_missing_uids(items):
-    for item in items:
-        if "uid" not in item:
-            item["uid"] = os.path.basename(item["api_url"])
-    return items
+from plone.docs.doc_api import fix_missing_uids
 
 
 # GET PROJECTS
