@@ -27,7 +27,6 @@ def convert_docs(context, logger=None):
     count = 0
     for brain in brains:
         source = brain.getObject()
-        source.id = source.id + "_clone"
         doc = api.content.create(
             type='plone.docs.docmeta',
             title=source.title,

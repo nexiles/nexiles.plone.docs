@@ -40,15 +40,15 @@
     profile="plone.docs:default">
 
     <genericsetup:upgradeStep
-        title="Convert docmetas"
-        description="docmeta is now plone.docs.docmeta"
-        handler="plone.docs.upgrades.convert_docs"
-        />
-
-    <genericsetup:upgradeStep
         title="Fix documentation folder"
         description="projects are now allowed in the doc folder"
         handler="plone.docs.upgrades.update_doc_folder"
+        />
+
+    <genericsetup:upgradeStep
+        title="Convert docmetas"
+        description="docmeta is now plone.docs.docmeta"
+        handler="plone.docs.upgrades.convert_docs"
         />
 
   </genericsetup:upgradeSteps>
