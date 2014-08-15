@@ -8,6 +8,8 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 
 from plone.docs import MessageFactory as _
 
+from plone import api
+
 from distutils.version import StrictVersion
 
 
@@ -41,7 +43,7 @@ class docmeta(Item):
         doc_root  = request.get_header("NEXILES_DOC_ROOT", "/docs/")
         prefix = host_name + doc_root
 
-        state = self.portal_workflow.getInfoFor(self, "review_state")
+        state = api.content.get_state(obj=self)
         if "external" in state:
             visibility = "external"
         elif "internal" in state:
@@ -62,6 +64,7 @@ class docmeta(Item):
             "uid": self.UID(),
             "id": self.id,
             "url": self.absolute_url(),
+            "modification_date": api.portal.get_localized_time(datetime=self.modification_date, long_format=1),
             "doc_url": (self.doc_url and prefix + self.doc_url) or prefix + self.id + "/" + self.version + "/",
             "zip": (self.zip and prefix + self.zip) or prefix + self.id + "/" + self.version + ".zip",
             "doc_icon": self.doc_icon and prefix + self.doc_icon
@@ -70,7 +73,7 @@ class docmeta(Item):
     def compareTo(self, doc):
         if doc is None:
             raise TypeError("Argument must not be None")
-        if not isinstance(doc, docmeta):
+        if not Idocmeta.providedBy(doc):
             raise TypeError("Argument must be an instance of plone.docs.docmeta")
         if self is doc: return 0
         v1 = StrictVersion(self.version)

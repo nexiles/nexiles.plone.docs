@@ -56,7 +56,7 @@
                                              title name"
                              tal:content="name" />
                       </td>
-                      <td class="listing-body-ModificationDate" tal:content="python:toLocalizedTime(doc['modification_date'],long_format=1)" />
+                      <td class="listing-body-ModificationDate" tal:content="doc/modification_date" />
                       <td class="listing-body-review_state" tal:content="doc/state" />
                       <td class="listing-body-visibility" tal:content="doc/visibility" />
                     </tr>

@@ -3,7 +3,7 @@ from plone import api
 import re
 import logging
 
-from plone.docs.project import Project
+from plone.docs.project import IProject
 
 logger = logging.getLogger("plone.docs.redirector")
 
@@ -34,7 +34,7 @@ class DocHandler():
     def redirectTo(self, fieldname, url , path):
         if url.endswith("/" + fieldname) or url.endswith("/" + fieldname + "/"):
             obj = api.content.get(path=re.sub("\/" + fieldname + "$", "", path))
-            if not obj or not isinstance(obj, Project):
+            if not obj or not IProject.providedBy(obj):
                 return None
 
             latest = obj.toJson(self.request)[fieldname]

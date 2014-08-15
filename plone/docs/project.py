@@ -7,7 +7,6 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 
 
 from plone.docs import MessageFactory as _
-from plone.docs.docmeta import docmeta
 
 from plone import api
 
@@ -35,7 +34,13 @@ class Project(Container):
     grok.implements(IProject)
 
     def docmetas(self):
-      return filter(lambda v: isinstance(v, docmeta), self.values())
+        """Returns all docmetas found in the project.
+        """
+        path = self.getPhysicalPath()
+        path = "/".join(path)
+        catalog = api.portal.get_tool(name="portal_catalog")
+        brains = catalog(portal_type="plone.docs.docmeta", path={"query": path, "depth": 1})
+        return map(lambda brain: brain.getObject(), brains)
 
     def toJson(self, request):
         """ Returns a dictionary that contains serializable information
@@ -46,14 +51,14 @@ class Project(Container):
         docs = self.docmetas()
 
         for doc in docs:
-            state = doc.portal_workflow.getInfoFor(doc, "review_state")
+            state = api.content.get_state(obj=doc)
             if "released" in state and (not released or doc.compareTo(released) > 0):
                     released = doc
 
             elif not "private" in state and (not draft or doc.compareTo(draft) > 0):
                     draft = doc
 
-        state = self.portal_workflow.getInfoFor(self, "review_state")
+        state = api.content.get_state(obj=self)
         if "external" in state:
             visibility = "external"
         elif "internal" in state:
@@ -74,6 +79,7 @@ class Project(Container):
             "uid": self.UID(),
             "id": self.id,
             "url": self.absolute_url(),
+            "modification_date": api.portal.get_localized_time(datetime=self.modification_date, long_format=1),
             "docs": map(lambda item: item.toJson(request), docs),
             "released": released and released.toJson(request),
             "latest": draft and draft.toJson(request)
@@ -113,6 +119,5 @@ class View(dexterity.DisplayForm):
 
     def extendJson(self, doc):
         obj = api.content.get(UID=doc["uid"])
-        doc["modification_date"] = obj.modification_date
         doc["creator"] = obj.Creator()
         return doc
