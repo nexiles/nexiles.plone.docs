@@ -28,6 +28,7 @@ setup(name='plone.docs',
           'plone.app.dexterity [grok]',
           'plone.namedfile [blobs]',
           # -*- Extra requirements: -*-
+          'collective.scriptedredirect'
       ],
       entry_points="""
       # -*- Entry points: -*-

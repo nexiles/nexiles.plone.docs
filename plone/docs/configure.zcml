@@ -53,6 +53,14 @@
 
   </genericsetup:upgradeSteps>
 
+  <!-- Register the Redirector -->
+  <browser:page
+    name="redirect_handler"
+    for="Products.CMFCore.interfaces.ISiteRoot"
+    class="plone.docs.redirector.DocHandler"
+    permission="zope2.View"
+    />
+
   <!-- -*- extra stuff goes here -*- -->
 
 </configure>

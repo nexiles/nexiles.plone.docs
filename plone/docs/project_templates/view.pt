@@ -27,7 +27,7 @@
           </dl>
         </div>
 
-        <div tal:condition="python: len(json['latest']) > 0">
+        <div tal:condition="python: len(json['all_latest']) > 0">
           <h3>Latest Documentation</h3>
           <table class="listing collection-listing" summary="Content listing"
               tal:define="pas_member context/@@pas_member;">
@@ -42,7 +42,7 @@
                   </tr>
               </thead>
               <tbody>
-                <tal:block repeat="doc json/latest">
+                <tal:block repeat="doc json/all_latest">
                     <tr class="odd">
                       <td class="listing-body-Title">
                           <a tal:attributes="href doc/id" tal:content="doc/title" />

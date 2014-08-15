@@ -66,7 +66,7 @@ class Project(Container):
         elif state != "private":
             state = "draft"
 
-        out = {
+        return {
             "title": self.title,
             "state": state,
             "visibility": visibility,
@@ -75,13 +75,9 @@ class Project(Container):
             "id": self.id,
             "url": self.absolute_url(),
             "docs": map(lambda item: item.toJson(request), docs),
-            "latest": {}
+            "released": released and released.toJson(request),
+            "latest": draft and draft.toJson(request)
         }
-
-        if released: out["latest"]["released"] = released.UID()
-        if draft: out["latest"]["draft"] = draft.UID()
-
-        return out
 
 
 # View class
@@ -104,12 +100,15 @@ class View(dexterity.DisplayForm):
         """ Returns information for the view
         """
         json = self.context.toJson(self.request)
-        json["latest"] = [
-            self.extendJson(api.content.get(UID=json["latest"][key]).toJson(self.request)) for key in json["latest"].keys()
-        ]
         json["docs"] = [
             self.extendJson(doc) for doc in json["docs"]
         ]
+
+        out = []
+        if json["released"]: out.append(self.extendJson(json["released"]))
+        if json["latest"]: out.append(self.extendJson(json["latest"]))
+        json["all_latest"] = out
+
         return json
 
     def extendJson(self, doc):
