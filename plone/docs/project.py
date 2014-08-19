@@ -81,8 +81,8 @@ class Project(Container):
             "url": self.absolute_url(),
             "modification_date": api.portal.get_localized_time(datetime=self.modification_date, long_format=1),
             "docs": map(lambda item: item.toJson(request), docs),
-            "released": released and released.toJson(request),
-            "latest": draft and draft.toJson(request)
+            "released": released and released.UID(),
+            "latest": draft and draft.UID()
         }
 
 
@@ -107,7 +107,7 @@ class View(dexterity.DisplayForm):
         """
         json = self.context.toJson(self.request)
         json["docs"] = [
-            self.extendJson(doc) for doc in json["docs"]
+            self.extendJson(doc["uid"], doc) for doc in json["docs"]
         ]
 
         out = []
@@ -117,7 +117,9 @@ class View(dexterity.DisplayForm):
 
         return json
 
-    def extendJson(self, doc):
-        obj = api.content.get(UID=doc["uid"])
-        doc["creator"] = obj.Creator()
-        return doc
+    def extendJson(self, uid, out=None):
+        obj = api.content.get(UID=uid)
+        if not out:
+            out = obj.toJson(self.request)
+        out["creator"] = obj.Creator()
+        return out
