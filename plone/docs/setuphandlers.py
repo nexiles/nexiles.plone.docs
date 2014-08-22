@@ -42,7 +42,7 @@ PROJECTS = [
 DOCS = [
 
     # id, **kwargs
-    ("nexiles-documentation-project", {"version": "0.1", "icon": None, "title": "nexiles-documentation-project"})
+    ("nexiles-documentation-project", {"version": "0.2", "icon": None, "title": "nexiles-documentation-project"})
 
 ]
 
