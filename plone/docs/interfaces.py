@@ -3,7 +3,11 @@ from zope.interface import Interface
 from plone.directives import form
 from plone.namedfile.interfaces import IImageScaleTraversable
 
-class IProject(form.Schema, IImageScaleTraversable):
+class IModelBased(form.Schema, IImageScaleTraversable):
+    """Supertype for model-driven types.
+    """
+
+class IProject(IModelBased):
     """Contains docmeta objects and links for a project.
     """
 
@@ -14,7 +18,7 @@ class IProject(form.Schema, IImageScaleTraversable):
            Only the for the user visible objects are returned.
         """
 
-class IDocmeta(form.Schema, IImageScaleTraversable):
+class IDocmeta(IModelBased):
     """Documentation meta data object.
     """
 

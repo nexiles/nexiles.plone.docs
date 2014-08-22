@@ -123,8 +123,8 @@ def setup_doc_folder(portal):
 
     # only allow Documentation to be added
     docs.setConstrainTypesMode(1)
-    docs.setLocallyAllowedTypes(("plone.docs.docmeta", "plone.docs.project"))
-    docs.setImmediatelyAddableTypes(("plone.docs.docmeta", "plone.docs.project"))
+    docs.setLocallyAllowedTypes(("plone.docs.project",))
+    docs.setImmediatelyAddableTypes(("plone.docs.project",))
 
     # local roles
     docs.manage_setLocalRoles("internal_users", ["Reader"])

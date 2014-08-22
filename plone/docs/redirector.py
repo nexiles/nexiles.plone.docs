@@ -1,13 +1,11 @@
 from plone import api
-
 import re
 import logging
-
-from plone.docs.project import IProject
+from plone.docs.interfaces import IProject, ISerializable
 
 logger = logging.getLogger("plone.docs.redirector")
 
-class DocHandler():
+class DocHandler(object):
     """ Redirect handler registered as a ``redirect_handler`` Zope 3 <browser:page>
     """
 
@@ -37,12 +35,13 @@ class DocHandler():
             if not obj or not IProject.providedBy(obj):
                 return None
 
-            latest = obj.toJson(self.request)[fieldname]
-            if not latest: return None
+            uid = ISerializable(obj).toJson(self.request)[fieldname]
+            if not uid: return None
 
-            url = latest["doc_url"]
+            latest = api.content.get(UID=uid)
+            json = ISerializable(latest).toJson(self.request)
 
-            logger.info("Redirect to %s", url)
-            return url
+            logger.info("Redirect to %s", json["doc_url"])
+            return json["doc_url"]
 
         return None

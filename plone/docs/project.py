@@ -31,23 +31,15 @@ class View(dexterity.DisplayForm):
     def json(self):
         """ Returns information for the view
         """
-        serializer = ISerializable(self.context)
-        json = serializer.toJson(self.request)
-        json["docs"] = [
-            self.extendJson(doc["uid"], doc) for doc in json["docs"]
-        ]
+        json = ISerializable(self.context).toJson(self.request)
 
         out = []
-        if json["released"]: out.append(self.extendJson(json["released"]))
-        if json["latest"]: out.append(self.extendJson(json["latest"]))
+        if json["released"]: out.append(self.getByUid(json["released"]))
+        if json["latest"]: out.append(self.getByUid(json["latest"]))
         json["all_latest"] = out
 
         return json
 
-    def extendJson(self, uid, out=None):
+    def getByUid(self, uid):
         obj = api.content.get(UID=uid)
-        if not out:
-            sobj = ISerializable(obj)
-            out = sobj.toJson(self.request)
-        out["creator"] = obj.Creator()
-        return out
+        return ISerializable(obj).toJson(self.request)
