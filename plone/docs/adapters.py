@@ -81,7 +81,7 @@ class SerializableProject(grok.Adapter):
             "id": project.id,
             "url": project.absolute_url(),
             "modification_date": api.portal.get_localized_time(datetime=project.modification_date, long_format=1),
-            "docs": map(lambda item: item.toJson(request), docs),
+            "docs": map(lambda item: ISerializable(item).toJson(request), docs),
             "released": released and released.UID(),
             "latest": draft and draft.UID()
         }

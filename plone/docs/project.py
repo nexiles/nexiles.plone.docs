@@ -1,6 +1,7 @@
 from five import grok
 from plone.dexterity.content import Container
 from plone.directives import dexterity
+from plone import api
 
 from plone.docs import MessageFactory as _
 from plone.docs.interfaces import IProject, ISerializable

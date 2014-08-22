@@ -11,6 +11,7 @@ from plone.jsonapi.routes.api import update_items
 from plone.jsonapi.routes.api import delete_items
 
 from plone import api
+from plone.docs.interfaces import ISerializable
 
 
 # see https://github.com/nexiles/nexiles.plone.docs/issues/2
@@ -97,7 +98,7 @@ def refetch(item, request):
     """ generate a new item with all necessary attributes
     """
     obj = api.content.get(UID=item["uid"])
-    out = obj.toJson(request)
+    out = ISerializable(obj).toJson(request)
     out["api_url"] = item["api_url"]
     return out
 
