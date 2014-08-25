@@ -2,16 +2,13 @@ from plone import api
 import re
 import logging
 from plone.docs.interfaces import IProject, ISerializable
+from AccessControl.SecurityManagement import newSecurityManager
 
 logger = logging.getLogger("plone.docs.redirector")
 
 class DocHandler(object):
     """ Redirect handler registered as a ``redirect_handler`` Zope 3 <browser:page>
     """
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
 
     def __call__(self, url, host, port, path):
         """ Handle redirects per site.
@@ -30,6 +27,11 @@ class DocHandler(object):
         return self.redirectTo("latest", url, path)
 
     def redirectTo(self, fieldname, url , path):
+        # See http://docs.plone.org/develop/plone/misc/commandline.html#posing-as-user
+        # Hack for https://github.com/nexiles/nexiles.plone.docs/issues/11
+        admin = api.user.get(userid="admin")
+        newSecurityManager(None, admin)
+
         if url.endswith("/" + fieldname) or url.endswith("/" + fieldname + "/"):
             obj = api.content.get(path=re.sub("\/" + fieldname + "$", "", path))
             if not obj or not IProject.providedBy(obj):
