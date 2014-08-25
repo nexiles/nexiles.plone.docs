@@ -38,9 +38,9 @@ class SerializableObject(grok.Adapter):
         }
 
 
-class SerializableDocmeta(SerializableObject):
+class Serializabledocmeta(SerializableObject):
     grok.provides(ISerializable)
-    grok.context(IDocmeta)
+    grok.context(Idocmeta)
 
     def toJson(self, request):
         host_name = request.get_header("NEXILES_DOC_HOST", "http://localhost:8888")
@@ -48,7 +48,7 @@ class SerializableDocmeta(SerializableObject):
         prefix = host_name + doc_root
 
         doc = self.context
-        out = super(SerializableDocmeta, self).toJson(request)
+        out = super(Serializabledocmeta, self).toJson(request)
 
         out.update({
             "version": doc.version,

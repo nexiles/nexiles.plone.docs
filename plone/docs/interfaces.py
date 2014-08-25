@@ -18,7 +18,7 @@ class IProject(IModelBased):
            Only the for the user visible objects are returned.
         """
 
-class IDocmeta(IModelBased):
+class Idocmeta(IModelBased):
     """Documentation meta data object.
     """
 

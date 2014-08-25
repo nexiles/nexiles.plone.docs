@@ -32,17 +32,6 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
-  <!-- Upgrade older versions to new contenttypes -->
-
-  <genericsetup:upgradeStep
-    title="Capitalization"
-    source="3"
-    destination="4"
-    profile="plone.docs:default"
-    description="docmeta is now Docmeta"
-    handler="plone.docs.upgrades.convert_docs"
-    />
-
   <!-- Register the Redirector -->
   <browser:page
     name="redirect_handler"

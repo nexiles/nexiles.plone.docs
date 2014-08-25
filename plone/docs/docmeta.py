@@ -4,16 +4,16 @@ from plone.directives import dexterity
 from distutils.version import StrictVersion
 
 from plone.docs import MessageFactory as _
-from plone.docs.interfaces import IDocmeta, ISerializable
+from plone.docs.interfaces import Idocmeta, ISerializable
 
 
-class Docmeta(Item):
-    grok.implements(IDocmeta)
+class docmeta(Item):
+    grok.implements(Idocmeta)
 
     def compareTo(self, doc):
         if doc is None:
             raise TypeError("Argument must not be None")
-        if not IDocmeta.providedBy(doc):
+        if not Idocmeta.providedBy(doc):
             raise TypeError("Argument must be an instance of plone.docs.docmeta")
         if self is doc: return 0
         v1 = StrictVersion(self.version)
@@ -30,7 +30,7 @@ class Docmeta(Item):
 class View(dexterity.DisplayForm):
     """ Default documentation view """
 
-    grok.context(IDocmeta)
+    grok.context(Idocmeta)
     grok.require('zope2.View')
 
     def json(self):
