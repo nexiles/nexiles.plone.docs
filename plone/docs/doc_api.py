@@ -21,19 +21,6 @@ def fix_missing_uids(items):
             item["uid"] = os.path.basename(item["api_url"])
     return items
 
-
-@router.add_route("/plone/api/1.0/login", "login", methods=["GET"])
-def checkLogin(context, request):
-    """ check for login
-    """
-    member = api.user.get_current()
-    return {
-        "logged_in": not api.user.is_anonymous(),
-        "email": member.getProperty("email"),
-        "name": member.getProperty("fullname"),
-    }
-
-
 # GET DOCS
 @router.add_route("/docs/api/1.0/docmetas", "docs", methods=["GET"])
 @router.add_route("/docs/api/1.0/docmetas/<string:uid>", "docs", methods=["GET"])
