@@ -1,3 +1,4 @@
+import re
 from plone import api
 from plone.jsonapi.core import router
 from AccessControl import Unauthorized, getSecurityManager
@@ -39,7 +40,7 @@ def authorize(context, request):
     for brain in brains:
         obj = brain.getObject()
         json = ISerializable(obj).toJson(request)
-        if url.startswith(json["doc_url"]):
+        if url.startswith(re.sub("\/index.html", "", json["doc_url"])) or url.startswith(re.sub(".zip", "", json["zip"])):
             doc = obj
             break
 
