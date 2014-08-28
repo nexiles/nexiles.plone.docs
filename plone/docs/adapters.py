@@ -1,12 +1,25 @@
 from plone.docs.interfaces import *
+from plone.jsonapi.routes.interfaces import IInfo
+from Products.ZCatalog.interfaces import ICatalogBrain
+from zope.globalrequest import getRequest
 from five import grok
 from plone import api
 
+class SerializableBrain(grok.Adapter):
+    grok.provides(IInfo)
+    grok.context(ICatalogBrain)
+
+    def to_dict(self):
+        return IInfo(self.context.getObject())()
+
+    def __call__(self):
+        return self.to_dict()
+
 class SerializableObject(grok.Adapter):
-    grok.provides(ISerializable)
+    grok.provides(IInfo)
     grok.context(IModelBased)
 
-    def toJson(self, request):
+    def to_dict(self):
         obj = self.context
         state = api.content.get_state(obj=obj)
         creator = api.user.get(userid=obj.Creator())
@@ -37,18 +50,24 @@ class SerializableObject(grok.Adapter):
             "modification_date": api.portal.get_localized_time(datetime=obj.modification_date, long_format=1),
         }
 
+    def __call__(self):
+        return self.to_dict()
 
-class Serializabledocmeta(SerializableObject):
-    grok.provides(ISerializable)
+class SerializableDocmeta(SerializableObject):
+    grok.provides(IInfo)
     grok.context(Idocmeta)
 
-    def toJson(self, request):
+    def to_dict(self):
+        """ Returns the dictionary representation of the object.
+            May only be called during a request!
+        """
+        doc = self.context
+        out = super(SerializableDocmeta, self).to_dict()
+
+        request = getRequest()
         host_name = request.get_header("NEXILES_DOC_HOST", "http://localhost:8888")
         doc_root  = request.get_header("NEXILES_DOC_ROOT", "/docs/")
         prefix = host_name + doc_root
-
-        doc = self.context
-        out = super(Serializabledocmeta, self).toJson(request)
 
         out.update({
             "version": doc.version,
@@ -59,15 +78,15 @@ class Serializabledocmeta(SerializableObject):
         return out
 
 class SerializableProject(SerializableObject):
-    grok.provides(ISerializable)
+    grok.provides(IInfo)
     grok.context(IProject)
 
-    def toJson(self, request):
+    def to_dict(self):
         released = None
         draft = None
 
         project = self.context
-        out = super(SerializableProject, self).toJson(request)
+        out = super(SerializableProject, self).to_dict()
         docs = project.docmetas()
 
         for doc in docs:
@@ -79,7 +98,7 @@ class SerializableProject(SerializableObject):
 
         out.update({
             "github": project.github,
-            "docs": map(lambda item: ISerializable(item).toJson(request), docs),
+            "docs": map(lambda item: IInfo(item)(), docs),
             "released": released and released.UID(),
             "latest": draft and draft.UID()
         })

@@ -29,6 +29,7 @@ setup(name='plone.docs',
           'plone.namedfile [blobs]',
           # -*- Extra requirements: -*-
           'collective.scriptedredirect'
+          'five.globalrequest'
       ],
       entry_points="""
       # -*- Entry points: -*-

@@ -8,10 +8,6 @@ from plone.jsonapi.routes.api import create_items
 from plone.jsonapi.routes.api import update_items
 from plone.jsonapi.routes.api import delete_items
 
-from plone.docs.doc_api import rewrite
-from plone.docs.doc_api import fix_missing_uids
-
-
 # GET PROJECTS
 @router.add_route("/docs/api/1.0/projects", "projects", methods=["GET"])
 @router.add_route("/docs/api/1.0/projects/<string:uid>", "projects", methods=["GET"])
@@ -22,7 +18,7 @@ def get(context, request, uid=None):
 
     return {
         "count": len(items),
-        "items": rewrite(items, request)
+        "items": items
     }
 
 # CREATE
@@ -32,11 +28,10 @@ def create(context, request, uid=None):
     """ create projects
     """
     items = create_items("plone.docs.project", request, uid=uid, endpoint="projects")
-    items = fix_missing_uids(items)
 
     return {
         "count": len(items),
-        "items": rewrite(items, request)
+        "items": items
     }
 
 
@@ -47,11 +42,10 @@ def update(context, request, uid=None):
     """ update projects
     """
     items = update_items("plone.docs.project", request, uid=uid, endpoint="projects")
-    items = fix_missing_uids(items)
 
     return {
         "count": len(items),
-        "items": rewrite(items, request)
+        "items": items
     }
 
 

@@ -1,8 +1,6 @@
 import re
 from plone import api
 from plone.jsonapi.core import router
-from AccessControl import Unauthorized, getSecurityManager
-from plone.docs.interfaces import ISerializable
 
 @router.add_route("/plone/api/1.0/login", "login", methods=["GET"])
 def checkLogin(context, request):

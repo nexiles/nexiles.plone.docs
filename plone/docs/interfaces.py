@@ -30,12 +30,10 @@ class Idocmeta(IModelBased):
             Returns < 0 if doc has a higher version.
         """
 
-class ISerializable(Interface):
-    """Supports serialization to a JSON object.
-    """
+    def get_doc_url():
+        """ Returns doc_url or if doc_url is not set a generated url
+        """
 
-    def toJson(request):
-        """Returns a dictionary that can be directly transformed into JSON.
-           Takes a request argument to build data that depends on request
-           specific information.
+    def get_zip():
+        """ Returns zip or if zip is not set a generated zip url
         """

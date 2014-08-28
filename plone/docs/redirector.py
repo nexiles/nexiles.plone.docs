@@ -1,7 +1,8 @@
 from plone import api
 import re
 import logging
-from plone.docs.interfaces import IProject, ISerializable
+from plone.docs.interfaces import IProject
+from plone.jsonapi.routes.interfaces import IInfo
 from AccessControl.SecurityManagement import newSecurityManager
 
 logger = logging.getLogger("plone.docs.redirector")
@@ -37,11 +38,11 @@ class DocHandler(object):
             if not obj or not IProject.providedBy(obj):
                 return None
 
-            uid = ISerializable(obj).toJson(self.request)[fieldname]
+            uid = IInfo(obj)()[fieldname]
             if not uid: return None
 
             latest = api.content.get(UID=uid)
-            json = ISerializable(latest).toJson(self.request)
+            json = IInfo(latest)()
 
             logger.info("Redirect to %s", json["doc_url"])
             return json["doc_url"]

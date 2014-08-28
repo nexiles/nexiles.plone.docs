@@ -2,9 +2,10 @@ from five import grok
 from plone.dexterity.content import Container
 from plone.directives import dexterity
 from plone import api
+from plone.jsonapi.routes.interfaces import IInfo
 
 from plone.docs import MessageFactory as _
-from plone.docs.interfaces import IProject, ISerializable
+from plone.docs.interfaces import IProject
 
 
 class Project(Container):
@@ -31,7 +32,7 @@ class View(dexterity.DisplayForm):
     def json(self):
         """ Returns information for the view
         """
-        json = ISerializable(self.context).toJson(self.request)
+        json = IInfo(self.context)()
 
         out = []
         if json["released"]: out.append(self.getByUid(json["released"]))
@@ -42,4 +43,4 @@ class View(dexterity.DisplayForm):
 
     def getByUid(self, uid):
         obj = api.content.get(UID=uid)
-        return ISerializable(obj).toJson(self.request)
+        return IInfo(obj)()

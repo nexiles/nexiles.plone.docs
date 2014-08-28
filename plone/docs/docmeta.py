@@ -2,9 +2,10 @@ from five import grok
 from plone.dexterity.content import Item
 from plone.directives import dexterity
 from distutils.version import StrictVersion
+from plone.jsonapi.routes.interfaces import IInfo
 
 from plone.docs import MessageFactory as _
-from plone.docs.interfaces import Idocmeta, ISerializable
+from plone.docs.interfaces import Idocmeta
 
 
 class docmeta(Item):
@@ -40,5 +41,4 @@ class View(dexterity.DisplayForm):
     grok.require('zope2.View')
 
     def json(self):
-        serializer = ISerializable(self.context)
-        return serializer.toJson(self.request)
+        return IInfo(self.context)()
