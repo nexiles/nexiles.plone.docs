@@ -12,10 +12,10 @@ class docmeta(Item):
     grok.implements(Idocmeta)
 
     def get_doc_url(self):
-        return self.doc_url or self.id + "/" + self.version + "/"
+        return self.doc_url or self.id + "/" + (self.version or "") + "/"
 
     def get_zip(self):
-        return self.zip or self.id + "/" + self.version + ".zip"
+        return self.zip or self.id + "/" + (self.version or "") + ".zip"
 
     def compareTo(self, doc):
         if doc is None:
