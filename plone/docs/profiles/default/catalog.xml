@@ -6,5 +6,8 @@
   <index name="zip" meta_type="FieldIndex">
    <indexed_attr value="zip"/>
   </index>
+  <index name="doc_icon" meta_type="FieldIndex">
+   <indexed_attr value="doc_icon"/>
+  </index>
   <column value="doc_url"/>
 </object>

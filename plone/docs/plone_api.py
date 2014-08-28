@@ -27,8 +27,7 @@ def authorize(context, request):
 
     uri = re.sub(doc_root, "", uri)
     catalog = api.portal.get_tool(name="portal_catalog")
-    brains = catalog(portal_type="plone.docs.docmeta", doc_url=uri)
-    if brains or catalog(portal_type="plone.docs.docmeta", zip=uri):
+    if catalog(portal_type="plone.docs.docmeta", doc_url=uri) or catalog(portal_type="plone.docs.docmeta", zip=uri) or catalog(portal_type="plone.docs.docmeta", doc_icon=uri):
         # 200 OK
         return {}
 
