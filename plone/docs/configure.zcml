@@ -40,6 +40,10 @@
     permission="zope2.View"
     />
 
+  <!-- Register Indexes -->
+  <adapter name="doc_url" factory=".indexers.docmeta_doc_url" />
+  <adapter name="zip" factory=".indexers.docmeta_zip" />
+
   <!-- -*- extra stuff goes here -*- -->
 
 </configure>

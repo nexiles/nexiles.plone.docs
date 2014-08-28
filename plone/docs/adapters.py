@@ -52,8 +52,8 @@ class Serializabledocmeta(SerializableObject):
 
         out.update({
             "version": doc.version,
-            "doc_url": (doc.doc_url and prefix + doc.doc_url) or prefix + doc.id + "/" + doc.version + "/",
-            "zip": (doc.zip and prefix + doc.zip) or prefix + doc.id + "/" + doc.version + ".zip",
+            "doc_url": prefix + doc.get_doc_url(),
+            "zip": prefix + doc.get_zip(),
             "doc_icon": doc.doc_icon and prefix + doc.doc_icon
         })
         return out

@@ -32,6 +32,9 @@ def setupVarious(context):
     setup_doc_folder(portal)
     setup_docs(portal)
 
+    # rebuild catalog
+    api.portal.get_tool(name="portal_catalog").clearFindAndRebuild()
+
 PROJECTS = [
 
     # id, **kwargs

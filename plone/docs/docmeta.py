@@ -10,6 +10,12 @@ from plone.docs.interfaces import Idocmeta, ISerializable
 class docmeta(Item):
     grok.implements(Idocmeta)
 
+    def get_doc_url(self):
+        return self.doc_url or self.id + "/" + self.version + "/"
+
+    def get_zip(self):
+        return self.zip or self.id + "/" + self.version + ".zip"
+
     def compareTo(self, doc):
         if doc is None:
             raise TypeError("Argument must not be None")
