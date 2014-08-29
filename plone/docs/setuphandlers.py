@@ -4,8 +4,6 @@ import logging
 
 from plone import api
 
-from Products.CMFCore.utils import getToolByName
-
 logger = logging.getLogger("plone.docs.setuphandlers")
 
 
@@ -29,11 +27,12 @@ def setupVarious(context):
     # run import steps
     setup_groups(portal)
     setup_demo_users(portal)
+    setup_catalog_indexes(portal)
     setup_doc_folder(portal)
     setup_docs(portal)
 
-    # rebuild catalog
-    api.portal.get_tool(name="portal_catalog").clearFindAndRebuild()
+# The profile id of your package
+PROFILE_ID = 'profile-plone.docs:default'
 
 PROJECTS = [
 
@@ -70,6 +69,13 @@ DEMO_USERS = [
 
 ]
 
+INDEXES = [
+    # name, type
+    ("doc_url", "FieldIndex"),
+    ("zip", "FieldIndex"),
+    ("doc_icon", "FieldIndex"),
+]
+
 def setup_groups(portal):
     """ setup required groups
     """
@@ -91,7 +97,7 @@ def setup_demo_users(portal):
     """
 
     # email or username as login?
-    portal_props = getToolByName(portal, 'portal_properties')
+    portal_props = api.portal.get_tool(name='portal_properties')
     props = portal_props.site_properties
     use_email_as_login = props.getProperty('use_email_as_login')
 
@@ -113,6 +119,41 @@ def setup_demo_users(portal):
             logger.info("*** Adding User '%s' to Group '%s' [DONE]" % (username, group))
 
         logger.info("*** Creating User '%s' [DONE]" % username)
+
+
+def setup_catalog_indexes(portal):
+    """ Method to add indexes to the portal_catalog.
+    """
+
+    # Run the catalog.xml step as that may have defined new metadata
+    # columns.  We could instead add <depends name="catalog"/> to
+    # the registration of our import step in zcml, but doing it in
+    # code makes this method usable as upgrade step as well.  Note that
+    # this silently does nothing when there is no catalog.xml, so it
+    # is quite safe.
+    setup = api.portal.get_tool(name='portal_setup')
+    setup.runImportStepFromProfile(PROFILE_ID, 'catalog')
+
+    catalog = api.portal.get_tool(name='portal_catalog')
+    indexes = catalog.indexes()
+
+    # Specify the indexes you want, with ('index_name', 'index_type')
+    indexables = []
+
+    for name, meta_type in INDEXES:
+        if name in indexes:
+            logger.info("*** Index '%s' already in Catalog [SKIP]" % name)
+            continue
+
+        logger.info("*** Adding Index '%s' for field '%s' to catalog ...", meta_type, name)
+        catalog.addIndex(name, meta_type)
+        indexables.append(name)
+        logger.info("*** Added Index '%s' for field '%s' to catalog [DONE]", meta_type, name)
+
+    if len(indexables) > 0:
+        logger.info("*** Indexing new indexes '[%s]' ..." % (', '.join(indexables), ))
+        catalog.manage_reindexIndex(ids=indexables)
+        logger.info("*** Indexing new indexes '[%s]' [DONE]" % (', '.join(indexables), ))
 
 
 def setup_doc_folder(portal):
