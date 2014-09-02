@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.2'
+version = '0.2.1'
 
 setup(name='plone.docs',
       version=version,
@@ -28,7 +28,7 @@ setup(name='plone.docs',
           'plone.app.dexterity [grok]',
           'plone.namedfile [blobs]',
           # -*- Extra requirements: -*-
-          'collective.scriptedredirect'
+          'collective.scriptedredirect',
           'five.globalrequest'
       ],
       entry_points="""

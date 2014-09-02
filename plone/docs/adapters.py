@@ -1,5 +1,6 @@
 from plone.docs.interfaces import *
 from plone.jsonapi.routes.interfaces import IInfo
+from plone.jsonapi.routes.adapters import ZCDataProvider
 from Products.ZCatalog.interfaces import ICatalogBrain
 from zope.globalrequest import getRequest
 from five import grok
@@ -10,6 +11,8 @@ class SerializableBrain(grok.Adapter):
     grok.context(ICatalogBrain)
 
     def to_dict(self):
+        if not "plone.docs" in self.context["portal_type"]:
+            return ZCDataProvider(self.context)()
         return IInfo(self.context.getObject())()
 
     def __call__(self):
