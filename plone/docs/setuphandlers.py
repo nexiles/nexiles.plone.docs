@@ -75,6 +75,11 @@ def setup_groups(portal):
         group = api.group.create(groupname, title, description, roles, groups)
         logger.info("*** Creating Group '%s' [DONE]" % groupname)
 
+    logger.info("*** Importing Documentation Admins from LDAP ...")
+    group_tool = api.portal.get_tool(name='portal_groups')
+    group_tool.editGroup("Documentation Admins", roles=["Documentation Administrator"])
+    logger.info("*** Importing Documentation Admins from LDAP [DONE]")
+
 
 def setup_catalog_indexes(portal):
     """ Method to add indexes to the portal_catalog.
@@ -127,8 +132,8 @@ def setup_doc_folder(portal):
 
     # local roles
     docs.manage_setLocalRoles("internal_users", ["Reader"])
-    docs.manage_setLocalRoles("developers", ["Contributor"])
-    docs.manage_setLocalRoles("doc_admins", ["Contributor", "Editor", "Reviewer"])
+    docs.manage_setLocalRoles("Developers", ["Contributor"])
+    docs.manage_setLocalRoles("Documentation Admins", ["Contributor", "Editor", "Reviewer"])
 
     # make public
     if api.content.get_state(obj=docs) == "private":
@@ -154,20 +159,13 @@ def setup_docs(portal):
 
         logger.info("*** Creating Project '%s' ..." % project_id)
         result = create(docs, "plone.docs.project", project_id, **kwargs)
-        result.manage_setLocalRoles("developer", ["Owner"])
         logger.info("*** Creating Project '%s' [DONE]" % project_id)
 
         for doc in DOCS:
             doc_id, kwargs = doc
 
-            # Documentation exists already, skipping
-            if doc_id in result:
-                logger.info("*** Documentation '%s' already in Project [SKIP]" % doc_id)
-                continue
-
             logger.info("*** Creating Documentation '%s' ..." % doc_id)
-            d = create(result, "plone.docs.docmeta", doc_id, **kwargs)
-            d.manage_setLocalRoles("developer", ["Owner"])
+            create(result, "plone.docs.docmeta", doc_id, **kwargs)
             logger.info("*** Creating Documentation '%s' [DONE]" % doc_id)
 
 
