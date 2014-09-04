@@ -26,7 +26,6 @@ def setupVarious(context):
 
     # run import steps
     setup_groups(portal)
-    setup_demo_users(portal)
     setup_catalog_indexes(portal)
     setup_doc_folder(portal)
     setup_docs(portal)
@@ -50,23 +49,8 @@ DOCS = [
 
 GROUPS = [
     # groupname, title, description, roles, groups
-    ("doc_admins", "Documentation Admins", "", [], []),
-    ("user_admins", "User Admins", "", ["User Manager"], []),
-    ("developers", "Developers", "", [], []),
-    ("consultants", "Consultants", "", [], []),
     ("external_users", "External Users", "", [], []),
-    ("internal_users", "Internal Users", "", ["Member"], ["doc_admins", "user_admins", "developers", "consultants"])
-]
-
-DEMO_USERS = [
-
-    # Add some users
-    # email, username, password, roles, properties, groups
-    ("dev@example.com", "developer", "secret", (), {"fullname": "Developer"}, ("developers",)),
-    ("consultant@example.com", "consultant", "secret", (), {"fullname": "Consultant"}, ("consultants",)),
-    ("doc_admin@example.com", "doc_admin", "secret", (), {"fullname": "Doc-Admin"}, ("doc_admins", "user_admins")),
-    ("info@siemens.com", "siemens", "secret", (), {"fullname": "Siemens"}, ("external_users",))
-
+    ("internal_users", "Internal Users", "", ["Member"], ["Documentation Admins", "Developers", "Consultants"])
 ]
 
 INDEXES = [
@@ -90,35 +74,6 @@ def setup_groups(portal):
         logger.info("*** Creating Group '%s' ..." % groupname)
         group = api.group.create(groupname, title, description, roles, groups)
         logger.info("*** Creating Group '%s' [DONE]" % groupname)
-
-
-def setup_demo_users(portal):
-    """ Add some demo users to the groups
-    """
-
-    # email or username as login?
-    portal_props = api.portal.get_tool(name='portal_properties')
-    props = portal_props.site_properties
-    use_email_as_login = props.getProperty('use_email_as_login')
-
-    for user in DEMO_USERS:
-        email, username, password, roles, properties, groups = user
-
-        login = use_email_as_login and email or username
-        if api.user.get(login):
-            logger.info("*** User '%s' already exists [SKIP]" % username)
-            continue
-
-        logger.info("*** Creating User '%s' ..." % username)
-        user = api.user.create(email, username, password, roles, properties)
-
-        # Add user to groups
-        for group in groups:
-            logger.info("*** Adding User '%s' to Group '%s' ..." % (username, group))
-            api.group.add_user(groupname=group, user=user)
-            logger.info("*** Adding User '%s' to Group '%s' [DONE]" % (username, group))
-
-        logger.info("*** Creating User '%s' [DONE]" % username)
 
 
 def setup_catalog_indexes(portal):

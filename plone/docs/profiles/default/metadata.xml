@@ -3,5 +3,6 @@
     <dependencies>
         <dependency>profile-plone.app.dexterity:default</dependency>
         <dependency>profile-collective.scriptedredirect:default</dependency>
+        <dependency>profile-plone.app.ldap:ldap</dependency>
     </dependencies>
 </metadata>

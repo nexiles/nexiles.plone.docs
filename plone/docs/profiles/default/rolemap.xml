@@ -12,7 +12,6 @@
     <role name="Reader"/>
     <role name="Reviewer"/>
     <role name="Site Administrator"/>
-    <role name="User Manager"/>
   </roles>
   <permissions>
     <permission name="ATContentTypes: Add Document" acquire="True">
@@ -62,6 +61,7 @@
     </permission>
     <permission name="Access contents information" acquire="True">
       <role name="Contributor"/>
+      <role name="Documentation Administrator"/>
       <role name="Editor"/>
       <role name="Reader"/>
       <role name="Site Administrator"/>
@@ -201,12 +201,6 @@
       <role name="Owner"/>
       <role name="Site Administrator"/>
     </permission>
-    <permission name="Plone Site Setup: Overview" acquire="True">
-      <role name="User Manager"/>
-    </permission>
-    <permission name="Plone Site Setup: Users and Groups" acquire="True">
-      <role name="User Manager"/>
-    </permission>
     <permission name="Portlets: Manage own portlets" acquire="True">
       <role name="Manager"/>
       <role name="Member"/>
@@ -274,6 +268,7 @@
     </permission>
     <permission name="View" acquire="True">
       <role name="Contributor"/>
+      <role name="Documentation Administrator"/>
       <role name="Editor"/>
       <role name="Reader"/>
       <role name="Site Administrator"/>
