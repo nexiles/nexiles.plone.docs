@@ -47,7 +47,7 @@
                 <item value="2"/>
             </property>
             <property id="_binduid" type="str">
-                <item value="cn=administrator,cn=users,dc=pdc01,dc=prd,dc=de,dc=nexiles,dc=intra"/>
+                <item value="cn=ldap,cn=users,dc=pdc01,dc=prd,dc=de,dc=nexiles,dc=intra"/>
             </property>
             <property id="_bindpwd" type="str">
                 <item value="XXXXXXXXX"/>
