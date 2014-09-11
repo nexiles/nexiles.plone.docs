@@ -7,10 +7,17 @@ def checkLogin(context, request):
     """ check for login
     """
     member = api.user.get_current()
+    loggedin = not api.user.is_anonymous()
+
+    # set cookie for basic auth requests
+    if loggedin and not request.cookies.get("__ac"):
+        context.acl_users.session._setupSession(member.getUserName(), request.response)
+
     return {
-        "logged_in": not api.user.is_anonymous(),
+        "logged_in": loggedin,
+        "username": member.getUserName(),
         "email": member.getProperty("email"),
-        "name": member.getProperty("fullname"),
+        "name": member.getProperty("fullname")
     }
 
 @router.add_route("/plone/api/1.0/auth", "auth", methods=["GET"])
